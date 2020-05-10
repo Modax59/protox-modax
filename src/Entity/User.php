@@ -13,7 +13,9 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
- * @ApiResource 
+ * @ApiResource(
+ *  normalizationContext={"groups"={"users_read"}}
+ * )
  * @UniqueEntity("email",message="Cette adresse email existe déjà")
  */
 class User implements UserInterface
@@ -22,13 +24,13 @@ class User implements UserInterface
      * @ORM\Id()
      * @ORM\GeneratedValue()
      * @ORM\Column(type="integer")
-     * @Groups({"customers_read","invoices_read", "invoices_subresource"})
+     * @Groups({"customers_read","invoices_read", "invoices_subresource", "users_read"})
      */
     private $id;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
-     * @Groups({"customers_read","invoices_read", "invoices_subresource"})
+     * @Groups({"customers_read","invoices_read", "invoices_subresource", "users_read"})
      * @Assert\NotBlank(message="L'email doit etre renseigné !")
      * @Assert\Email(message="Le format de l'adresse email n'est pas valide !")
      */
@@ -48,7 +50,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"customers_read","invoices_read", "invoices_subresource"})
+     * @Groups({"customers_read","invoices_read", "invoices_subresource", "users_read"})
      * @Assert\NotBlank(message="Le prénom doit etre renseigné !")
      * @Assert\Length(min=3, minMessage="Le prenom doit faire plus de 3 caractères !", max=255 , maxMessage="Le prénom doit faire moins de 255 caractères")
      */
@@ -56,7 +58,7 @@ class User implements UserInterface
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Groups({"customers_read","invoices_read", "invoices_subresource"})
+     * @Groups({"customers_read","invoices_read", "invoices_subresource", "users_read"})
      * @Assert\NotBlank(message="Le nom doit etre renseigné !")
      * @Assert\Length(min=3, minMessage="Le nom doit faire plus de 3 caractères !", max=255 , maxMessage="Le nom doit faire moins de 255 caractères")
      */
