@@ -23,7 +23,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *      "method"="post", "path"="/invoices/{id}/increment","controller"="App\Controller\InvoiceIncrementationController","swagger_context"={"summary"="Incremente une facture","description"="Incremente le chrono d'une facture donnee"}}},
  * 
  * attributes={
- *      "pagination_enabled"=true,
+ *      "pagination_enabled"=false,
  *      "pagination_items_per_page"=20,
  *      "order": {"sentAt":"desc"}
  *  },
@@ -87,7 +87,7 @@ class Invoice
      * @Groups({"invoices_read", "invoices_subresource"})
      * @return User
      */
-    public function getUser() : User
+    public function getUser(): User
     {
         return $this->getCustomer()->getUser();
     }
@@ -114,7 +114,7 @@ class Invoice
         return $this->sentAt;
     }
 
-    public function setSentAt( $sentAt): self
+    public function setSentAt($sentAt): self
     {
         $this->sentAt = $sentAt;
 
