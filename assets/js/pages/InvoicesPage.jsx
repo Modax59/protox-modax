@@ -13,7 +13,7 @@ const STATUS_LABEL = {
   PAID: "Payée",
   SENT: "Envoyée",
   CANCELLED: "Annulée",
-};
+}; 
 
 const InvoicesPage = (props) => {
   const [invoices, setInvoices] = useState([]);
