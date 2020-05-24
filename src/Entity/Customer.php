@@ -44,24 +44,24 @@ class Customer
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read", "invoices_read"})
-     * @Assert\NotBlank(message="Le prénom du client est obligatoire")
      * @Assert\Length(min=3, minMessage="Le prénom doit faire plus de 3 caractères !", max=255 , maxMessage="Le prénom doit faire moins de 255 caractères")
+     * @Assert\NotBlank(message="Le prénom du client est obligatoire")
      */
     private $firstName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read", "invoices_read"})
-     * @Assert\NotBlank(message="Le nom du client est obligatoire")
      * @Assert\Length(min=3, minMessage="Le nom doit faire plus de 3 caractères !", max=255 , maxMessage="Le nom doit faire moins de 255 caractères")
+     * @Assert\NotBlank(message="Le nom du client est obligatoire")
      */
     private $lastName;
 
     /**
      * @ORM\Column(type="string", length=255)
      * @Groups({"customers_read", "invoices_read"})
-     * @Assert\NotBlank(message="L'adresse email du client est obligatoire")
      * @Assert\Email(message="Le format de l'adresse email n'est pas valide")
+     * @Assert\NotBlank(message="L'adresse email du client est obligatoire")
      */
     private $email;
 
@@ -90,11 +90,11 @@ class Customer
      * @Groups({"customers_read"})
      * @return float
      */
-    public function getTotalAmount() : float
+    public function getTotalAmount(): float
     {
-        return array_reduce($this->invoices->toArray(),function($total, $invoice){
+        return array_reduce($this->invoices->toArray(), function ($total, $invoice) {
             return $total + $invoice->getAmount();
-        },0);
+        }, 0);
     }
 
     /**
@@ -102,11 +102,11 @@ class Customer
      * @Groups({"customers_read"})
      * @return float
      */
-     public function getUnpaidAmount() : float
+    public function getUnpaidAmount(): float
     {
-        return array_reduce($this->invoices->toArray(),function($total, $invoice){
+        return array_reduce($this->invoices->toArray(), function ($total, $invoice) {
             return $total + ($invoice->getStatus() === "PAID" || $invoice->getStatus() === "CANCELLED" ? 0 : $invoice->getAmount());
-        },0);
+        }, 0);
     }
 
     public function __construct()
