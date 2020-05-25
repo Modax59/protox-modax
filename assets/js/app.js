@@ -16,7 +16,6 @@ import RegisterPage from "./pages/RegisterPage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-console.log("Hello Webpack Encore!bite! Edit me in assets/js/app.js");
 
 AuthAPI.setup();
 

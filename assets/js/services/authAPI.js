@@ -1,16 +1,19 @@
 import axios from "axios";
 import jwtDecode from "jwt-decode";
+import Cache from "./cache";
+import { LOGIN_API } from "../config";
 
 //Déconnexion, suppression token en local et axios
 function logout() {
   window.localStorage.removeItem("authToken");
   delete axios.defaults.headers["Authorization"];
+  Cache.invalidate("customers");
 }
 
 //Requete http d'authentification et stockage du token et dans axios
 function authenticate(credentials) {
   return axios
-    .post("http://localhost:8000/api/login_check", credentials)
+    .post(LOGIN_API, credentials)
     .then((response) => response.data.token)
     .then((token) => {
       //Stockage du token dans le local storage

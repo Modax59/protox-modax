@@ -5,7 +5,6 @@ import { Link } from "react-router-dom";
 import CustomersAPI from "../services/CustomersAPI";
 import InvoicesAPI from "../services/InvoicesAPI";
 import { toast } from "react-toastify";
-import FormLoader from "../components/loaders/FormContentLoader";
 import FormContentLoader from "../components/loaders/FormContentLoader";
 
 const InvoicePage = ({ history, match }) => {
