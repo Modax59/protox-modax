@@ -24,6 +24,7 @@ function update(id, invoice) {
 }
 
 function create(invoice) {
+  
   return axios.post("http://localhost:8000/api/invoices", {
     ...invoice,
     customer: `/api/customers/${invoice.customer}`,
