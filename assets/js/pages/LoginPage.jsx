@@ -3,9 +3,12 @@ import AuthAPI from "../services/authAPI";
 import AuthContext from "../contexts/AuthContext";
 import Field from "../components/forms/Field";
 import { toast } from "react-toastify";
+import Button from "../components/forms/Button";
+import { Link } from "react-router-dom";
 
 const LoginPage = ({ history }) => {
   const { setIsAuthenticated } = useContext(AuthContext);
+  const [btnLoading, setBtnLoading] = useState(false);
   const [credentials, setCredentials] = useState({
     username: "",
     password: "",
@@ -23,17 +26,20 @@ const LoginPage = ({ history }) => {
   //Gestion du submit
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setBtnLoading(true);
     try {
       await AuthAPI.authenticate(credentials);
       setError("");
       setIsAuthenticated(true);
       toast.success("Vous êtes désormais connecté ! 😄");
+      setBtnLoading(false);
       history.replace("/customers");
     } catch (error) {
       setError(
         "Aucun compte ne possède cette adresse ou alors les informations ne correspondent pas !"
       );
       toast.error("Une erreur est survenue lors de la connexion 😟");
+      setBtnLoading(false);
     }
   };
   return (
@@ -60,9 +66,10 @@ const LoginPage = ({ history }) => {
         />
 
         <div className="form-group">
-          <button type="submit" className="btn btn-success">
-            Je me connecte
-          </button>
+          <Button loading={btnLoading}>Je me connecte</Button>  
+          <Link to="/forgotpass" className="btn btn-link">
+            Mot de passe oublié?
+          </Link>
         </div>
       </form>
     </>

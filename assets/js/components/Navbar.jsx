@@ -1,10 +1,27 @@
-import React, { useContext } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import AuthAPI from "../services/authAPI";
 import { NavLink } from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
 import { toast } from "react-toastify";
+import resetPassAPI from "../services/resetPassAPI";
 
 const Navbar = ({ history }) => {
+  const [id, setId] = useState();
+
+  const getId = async (email) => {
+    try {
+      const email = AuthAPI.getEmail();
+      const newId = await resetPassAPI.EmailToId(email);
+      setId(newId);
+    } catch (error) {
+      toast.error("Votre profil n'a pas pu etre chargé 😟");
+    }
+  };
+
+  useEffect(() => {
+    getId(id);
+  }, [id]);
+
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const handleLogout = () => {
     AuthAPI.logout();
@@ -13,8 +30,8 @@ const Navbar = ({ history }) => {
     history.push("/login");
   };
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-light">
-      <NavLink className="navbar-brand" to="/">
+    <nav className="navbar navbar-expand-lg navbar bg">
+      <NavLink className="navbar-brand py-3" to="/">
         SymReact
       </NavLink>
       <button
@@ -57,11 +74,18 @@ const Navbar = ({ history }) => {
               </li>{" "}
             </>
           )) || (
-            <li className="nav-item">
-              <button onClick={handleLogout} className="btn btn-danger">
-                Déconnexion
-              </button>
-            </li>
+            <>
+              <li className="nav-item pr-3">
+                <NavLink to={"/users/" + id} className="btn btn-primary">
+                  Mon Profil
+                </NavLink>
+              </li>
+              <li className="nav-item">
+                <button onClick={handleLogout} className="btn btn-danger">
+                  Déconnexion
+                </button>
+              </li>
+            </>
           )}
         </ul>
       </div>

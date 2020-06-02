@@ -5,6 +5,8 @@ import CustomersAPI from "../services/CustomersAPI";
 import { toast } from "react-toastify";
 import FormLoader from "../components/loaders/FormContentLoader";
 import FormContentLoader from "../components/loaders/FormContentLoader";
+import Button from "../components/forms/Button";
+import AuthAPI from "../services/authAPI";
 
 const CustomerPage = ({ match, history }) => {
   const { id = "new" } = match.params;
@@ -25,6 +27,7 @@ const CustomerPage = ({ match, history }) => {
 
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [btnLoading, setBtnLoading] = useState(false);
 
   //Recuperation du customer en fonciton de l'identifiant
   const fetchCustomer = async (id) => {
@@ -58,28 +61,36 @@ const CustomerPage = ({ match, history }) => {
 
   //Gestion de la soumition du formulaire
   const handleSubmit = async (event) => {
+    const auth = AuthAPI.isAuthenticated();
     event.preventDefault();
-    try {
-      setError({});
-      if (editing) {
-        await CustomersAPI.update(id, customer);
-        toast.success("Le client à bien été modifié 😀");
-      } else {
-        await CustomersAPI.create(customer);
-        toast.success("Le client à bien été créé 😀");
-        history.replace("/customers");
-      }
-    } catch ({ response }) {
-      const { violations } = response.data;
+    if (auth == true) {
+      try {
+        setBtnLoading(true);
+        setError({});
+        if (editing) {
+          await CustomersAPI.update(id, customer);
+          toast.success("Le client à bien été modifié 😀");
+        } else {
+          await CustomersAPI.create(customer);
+          toast.success("Le client à bien été créé 😀");
+          setBtnLoading(false);
+          history.replace("/customers");
+        }
+      } catch ({ response }) {
+        const { violations } = response.data;
 
-      if (violations) {
-        const apiError = {};
-        violations.map(({ propertyPath, message }) => {
-          apiError[propertyPath] = message;
-        });
-        setError(apiError);
-        toast.error("Une erreur est survenue dans le formulaire");
+        if (violations) {
+          const apiError = {};
+          violations.map(({ propertyPath, message }) => {
+            apiError[propertyPath] = message;
+          });
+          setError(apiError);
+          setBtnLoading(false);
+          toast.error("Une erreur est survenue dans le formulaire");
+        }
       }
+    } else {
+      AuthAPI.logout();
     }
   };
   return (
@@ -125,9 +136,7 @@ const CustomerPage = ({ match, history }) => {
             error={error.company}
           />
           <div className="form-group">
-            <button type="submit" className="btn btn-success">
-              Enregistrer
-            </button>
+            <Button loading={btnLoading}>Enregistrer</Button>
             <Link to="/customers" className="btn btn-link">
               Retour à la liste
             </Link>

@@ -3,6 +3,7 @@ import React from "react";
 const Field = ({
   name,
   label,
+  labelClass = "",
   value,
   onChange,
   placeholder = "",
@@ -10,7 +11,9 @@ const Field = ({
   error = "",
 }) => (
   <div className="form-group">
-    <label htmlFor={name}>{label}</label>
+    <label className={labelClass} htmlFor={name}>
+      {label}
+    </label>
     <input
       value={value}
       onChange={onChange}

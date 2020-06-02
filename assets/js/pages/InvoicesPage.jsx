@@ -5,6 +5,7 @@ import InvoicesAPI from "../services/InvoicesAPI";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import TableLoader from "../components/loaders/TableLoader";
+import SearchBar from "../components/forms/SearchBar";
 
 const STATUS_CLASSES = {
   PAID: "success",
@@ -60,7 +61,6 @@ const InvoicesPage = (props) => {
     } catch (error) {
       toast.error("Une erreur est survenue 😕");
       setInvoices(originalInvoices);
-      console.log(error.response);
     }
   };
 
@@ -86,7 +86,7 @@ const InvoicesPage = (props) => {
 
   return (
     <>
-      <div className="d-flex justify-content-between align-items-center">
+      <div className="mb-3 d-flex justify-content-between align-items-center">
         <h1>Liste des factures</h1>
         <Link to="/invoices/new" className="btn btn-primary">
           Créer une facture
@@ -94,15 +94,8 @@ const InvoicesPage = (props) => {
       </div>
 
       <div className="form-group">
-        <input
-          type="text"
-          onChange={handleSearch}
-          value={search}
-          className="form-control"
-          placeholder="Recherchez.."
-        />
+        <SearchBar value={search} onChange={handleSearch} />
       </div>
-
       {!loading && (
         <table className="table table-hover">
           <thead>

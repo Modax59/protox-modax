@@ -4,17 +4,45 @@ namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Doctrine\Common\Collections\Collection;
+use ApiPlatform\Core\Annotation\ApiProperty;
 use ApiPlatform\Core\Annotation\ApiResource;
 use Doctrine\Common\Collections\ArrayCollection;
 use Symfony\Component\Serializer\Annotation\Groups;
-use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
  * @ApiResource(
- *  normalizationContext={"groups"={"users_read"}}
+ *  normalizationContext={"groups"={"users_read"}},
+ * 
+ *  collectionOperations={"GET", "POST", "ResetPass"={
+ *      "method"="post",
+ *      "path"="/reset/{token}/ResetPass",
+ *      "controller"="App\Controller\user\ResetPasswordController",
+ * },
+ *       "newPass"={
+ *              "method"="post",
+ *              "path"="/users/newpass/{id}",
+ *              "controller"="App\Controller\user\NewPasswordController",
+ *               },
+ *       "emailToId"={
+ *      "method"="post",
+ *      "path"="/users/emailToId/{email}",
+ *      "controller"="App\Controller\user\EmailToIdController"
+ * },
+ * },
+ *  itemOperations={"GET", "PUT", "DELETE", "ForgotPass"={
+ *      "method"="post",
+ *      "path"="/users/{id}/ForgotPass",
+ *      "controller"="App\Controller\user\ForgotPasswordController",
+ *      "swagger_context"={
+ *          "summary"="Mail reset password",
+ *          "description"="Envoie de mail pour reset password"
+ *          }
+ *      }
+ *  }
  * )
  * @UniqueEntity("email",message="Cette adresse email existe déjà")
  */
@@ -68,6 +96,11 @@ class User implements UserInterface
      * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user")
      */
     private $customers;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $resetPassToken;
 
     public function __construct()
     {
@@ -203,6 +236,18 @@ class User implements UserInterface
                 $customer->setUser(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getResetPassToken(): ?string
+    {
+        return $this->resetPassToken;
+    }
+
+    public function setResetPassToken(?string $resetPassToken): self
+    {
+        $this->resetPassToken = $resetPassToken;
 
         return $this;
     }

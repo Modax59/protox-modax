@@ -6,6 +6,8 @@ import CustomersAPI from "../services/CustomersAPI";
 import InvoicesAPI from "../services/InvoicesAPI";
 import { toast } from "react-toastify";
 import FormContentLoader from "../components/loaders/FormContentLoader";
+import Button from "../components/forms/Button";
+import AuthAPI from "../services/authAPI";
 
 const InvoicePage = ({ history, match }) => {
   const { id = "new" } = match.params;
@@ -20,6 +22,7 @@ const InvoicePage = ({ history, match }) => {
 
   const [editing, setEditing] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [btnLoading, setBtnLoading] = useState(false);
 
   const [erros, setErros] = useState({
     amount: "",
@@ -77,30 +80,37 @@ const InvoicePage = ({ history, match }) => {
 
   //Gestion de la soumittion du formulaire
   const handleSubmit = async (event) => {
+    const auth = AuthAPI.isAuthenticated();
     event.preventDefault();
-    try {
-      if (editing) {
-        await InvoicesAPI.update(id, invoice);
-        toast.success("La facture a bien été modifiée 😀");
-      } else {
-        console.log(invoice);
-        await InvoicesAPI.create(invoice);
-        toast.success("La facture a bien été enregitrée 😀");
-        history.replace("/invoices");
-      }
-    } catch ({ response }) {
-      const { violations } = response.data;
-      console.log(response);
+    if (auth == true) {
+      try {
+        setBtnLoading(true);
+        if (editing) {
+          await InvoicesAPI.update(id, invoice);
+          toast.success("La facture a bien été modifiée 😀");
+          setBtnLoading(false);
+        } else {
+          await InvoicesAPI.create(invoice);
+          toast.success("La facture a bien été enregitrée 😀");
+          setBtnLoading(false);
+          history.replace("/invoices");
+        }
+      } catch ({ response }) {
+        const { violations } = response.data;
 
-      if (violations) {
-        const apiError = {};
+        if (violations) {
+          const apiError = {};
 
-        violations.map(({ propertyPath, message }) => {
-          apiError[propertyPath] = message;
-        });
-        setErros(apiError);
-        toast.error("Une erreur est survenue dans le formulaire");
+          violations.map(({ propertyPath, message }) => {
+            apiError[propertyPath] = message;
+          });
+          setErros(apiError);
+          setBtnLoading(false);
+          toast.error("Une erreur est survenue dans le formulaire");
+        }
       }
+    } else {
+      AuthAPI.logout();
     }
   };
 
@@ -148,9 +158,7 @@ const InvoicePage = ({ history, match }) => {
           </Select>
 
           <div className="form-group">
-            <button type="submit" className="btn btn-success">
-              Enregistrer
-            </button>
+            <Button loading={btnLoading}>Enregistrer</Button>
             <Link to="/invoices" className="btn btn-link">
               Retour aux factures
             </Link>

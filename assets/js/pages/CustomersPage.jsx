@@ -4,6 +4,7 @@ import CustomersAPI from "../services/CustomersAPI";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import TableLoader from "../components/loaders/TableLoader";
+import SearchBar from "../components/forms/SearchBar";
 
 const CustomersPage = (props) => {
   const [customers, setCustomers] = useState([]);
@@ -77,17 +78,7 @@ const CustomersPage = (props) => {
           Créer un client
         </Link>
       </div>
-
-      <div className="form-group">
-        <input
-          type="text"
-          onChange={handleSearch}
-          value={search}
-          className="form-control"
-          placeholder="Recherchez.."
-        />
-      </div>
-
+      <SearchBar onChange={handleSearch} value={search} />
       {!loading && (
         <table className="table table-hover">
           <thead>
@@ -135,7 +126,6 @@ const CustomersPage = (props) => {
           </tbody>
         </table>
       )}
-
       {loading && <TableLoader />}
       {itemsPerPage < filteredCustomers.length && (
         <Pagination

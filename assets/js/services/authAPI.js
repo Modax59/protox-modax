@@ -60,9 +60,23 @@ function isAuthenticated() {
   return false;
 }
 
+function getEmail() {
+  const token = window.localStorage.getItem("authToken");
+  //Si le token est encore valide
+  if (token) {
+    const { username: email, exp: expiration } = jwtDecode(token);
+    if (expiration * 1000 > new Date().getTime()) {
+      return email;
+    }
+    return false;
+  }
+  return false;
+}
+
 export default {
   authenticate,
   logout,
   setup,
   isAuthenticated,
+  getEmail,
 };
