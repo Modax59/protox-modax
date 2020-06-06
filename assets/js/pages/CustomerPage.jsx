@@ -136,7 +136,12 @@ const CustomerPage = ({ match, history }) => {
             error={error.company}
           />
           <div className="form-group">
-            <Button loading={btnLoading}>Enregistrer</Button>
+            <Button loading={btnLoading}>
+              <label htmlFor="">
+                <i className=" ti-check "></i>
+              </label>
+              Enregistrer
+            </Button>
             <Link to="/customers" className="btn btn-link">
               Retour à la liste
             </Link>

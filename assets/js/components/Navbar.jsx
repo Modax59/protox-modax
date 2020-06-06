@@ -7,20 +7,24 @@ import resetPassAPI from "../services/resetPassAPI";
 
 const Navbar = ({ history }) => {
   const [id, setId] = useState();
+  const [firstName, setFirstName] = useState();
 
   const getId = async (email) => {
     try {
       const email = AuthAPI.getEmail();
-      const newId = await resetPassAPI.EmailToId(email);
-      setId(newId);
+      const data = await resetPassAPI.EmailToId(email);
+      setFirstName(data.firstName.charAt(0).toUpperCase());
+      setId(data.id);
     } catch (error) {
       toast.error("Votre profil n'a pas pu etre chargé 😟");
     }
   };
 
   useEffect(() => {
-    getId(id);
-  }, [id]);
+    if (isAuthenticated) {
+      getId(id);
+    }
+  }, []);
 
   const { isAuthenticated, setIsAuthenticated } = useContext(AuthContext);
   const handleLogout = () => {
@@ -76,8 +80,11 @@ const Navbar = ({ history }) => {
           )) || (
             <>
               <li className="nav-item pr-3">
-                <NavLink to={"/users/" + id} className="btn btn-primary">
-                  Mon Profil
+                <NavLink
+                  to={"/users/" + id}
+                  className="btn btn-primary btn-round"
+                >
+                  {firstName}
                 </NavLink>
               </li>
               <li className="nav-item">

@@ -42,8 +42,6 @@ const App = () => {
           <Switch>
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
-            <Route path="/forgotpass" component={ForgotPass} />
-            <Route path="/resetpass/:token" component={ResetPass} />
             <PrivateRoute path="/users/:id" component={UserPage} />
             <PrivateRoute path="/invoices/:id" component={InvoicePage} />
             <PrivateRoute path="/invoices" component={InvoicesPage} />

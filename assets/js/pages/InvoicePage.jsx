@@ -158,7 +158,12 @@ const InvoicePage = ({ history, match }) => {
           </Select>
 
           <div className="form-group">
-            <Button loading={btnLoading}>Enregistrer</Button>
+            <Button loading={btnLoading}>
+              <label htmlFor="">
+                <i className=" ti-check "></i>
+              </label>
+              Enregistrer
+            </Button>
             <Link to="/invoices" className="btn btn-link">
               Retour aux factures
             </Link>

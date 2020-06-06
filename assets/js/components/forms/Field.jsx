@@ -9,6 +9,8 @@ const Field = ({
   placeholder = "",
   type = "text",
   error = "",
+  disabled = "",
+  moreClass = " ",
 }) => (
   <div className="form-group">
     <label className={labelClass} htmlFor={name}>
@@ -21,7 +23,8 @@ const Field = ({
       placeholder={placeholder || label}
       name={name}
       id={name}
-      className={"form-control" + (error && " is-invalid")}
+      className={"form-control" + (error && " is-invalid") + " " + moreClass}
+      disabled={disabled}
     />
     {error && <p className="invalid-feedback">{error}</p>}
   </div>

@@ -2,8 +2,8 @@ import axios from "axios";
 
 async function EmailToId(email) {
   return axios
-    .post("http://localhost:8000/api/users/emailToId/" + email, {})
-    .then((response) => response.data.id);
+    .get("http://localhost:8000/api/get/emailToId/" + email)
+    .then((response) => response.data);
 }
 
 async function SendEmailWithID(id) {

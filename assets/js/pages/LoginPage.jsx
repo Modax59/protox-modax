@@ -66,10 +66,7 @@ const LoginPage = ({ history }) => {
         />
 
         <div className="form-group">
-          <Button loading={btnLoading}>Je me connecte</Button>  
-          <Link to="/forgotpass" className="btn btn-link">
-            Mot de passe oublié?
-          </Link>
+          <Button loading={btnLoading}>Je me connecte</Button>
         </div>
       </form>
     </>

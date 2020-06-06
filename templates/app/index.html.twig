@@ -5,6 +5,9 @@
 
 {% block stylesheets %}
 	<link rel="stylesheet" href="https://bootswatch.com/4/litera/bootstrap.min.css">
+	<link href=" {{ asset('assets/css/core.min.css') }} " rel="stylesheet"/>
+	<link href=" {{ asset('assets/css/app.min.css') }}" rel="stylesheet"/>
+	<link href=" {{ asset('assets/css/style.min.css') }}" rel="stylesheet"/>
 	{{ encore_entry_link_tags('app') }}
 {% endblock %}
 
@@ -16,5 +19,8 @@
 	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+	<script src=" {{ asset('assets/js/core.min.js') }}"></script>
+	<script src=" {{ asset('assets/js/app.min.js') }}"></script>
+	<script src=" {{ asset('assets/js/script.min.js') }}"></script>
 	{{ encore_entry_script_tags('app')}}
 {% endblock %}

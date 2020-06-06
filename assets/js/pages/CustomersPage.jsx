@@ -72,9 +72,15 @@ const CustomersPage = (props) => {
 
   return (
     <>
-      <div className="mb-3 d-flex justify-content-between align-items-center">
-        <h1>Liste des clients</h1>
-        <Link to="/customers/new" className="btn btn-primary">
+      <div className=" mb-3 d-flex justify-content-between align-items-center">
+        <h1 className="fadeInLeftBig animated">Liste des clients</h1>
+        <Link
+          to="/customers/new"
+          className=" fadeInRightBig animated btn btn-label btn-primary"
+        >
+          <label htmlFor="">
+            <i className="ti-plus"></i>
+          </label>
           Créer un client
         </Link>
       </div>
@@ -95,7 +101,7 @@ const CustomersPage = (props) => {
 
           <tbody>
             {paginatedCustomers.map((customer) => (
-              <tr key={customer.id}>
+              <tr className="hover-shadow-5" key={customer.id}>
                 <td>{customer.id}</td>
                 <td>
                   <Link to={"/customers/" + customer.id}>
@@ -105,7 +111,7 @@ const CustomersPage = (props) => {
                 <td>{customer.email}</td>
                 <td>{customer.company}</td>
                 <td className="text-center">
-                  <span className="badge badge-secondary">
+                  <span className=" px-3 py-2 badge badge-secondary">
                     {customer.invoices.length}
                   </span>
                 </td>

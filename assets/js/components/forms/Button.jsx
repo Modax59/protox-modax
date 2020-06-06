@@ -2,7 +2,11 @@ import React from "react";
 
 const Button = ({ loading, children }) => {
   return (
-    <button type="submit" className="btn btn-success" disabled={loading}>
+    <button
+      type="submit"
+      className="btn btn-label btn-success"
+      disabled={loading}
+    >
       {loading ? (
         <>
           <span

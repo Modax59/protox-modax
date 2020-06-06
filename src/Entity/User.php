@@ -28,8 +28,8 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *              "controller"="App\Controller\user\NewPasswordController",
  *               },
  *       "emailToId"={
- *      "method"="post",
- *      "path"="/users/emailToId/{email}",
+ *      "method"="get",
+ *      "path"="/get/emailToId/{email}",
  *      "controller"="App\Controller\user\EmailToIdController"
  * },
  * },

@@ -2,7 +2,7 @@ import React from "react";
 
 const SearchBar = ({ onChange, value, placeholder = "Recherchez.." }) => {
   return (
-    <div className="lookup lookup-huge no-icon pb-4">
+    <div className="lookup lookup-huge no-icon fadeInDown animated  pb-4">
       <input
         type="text"
         onChange={onChange}

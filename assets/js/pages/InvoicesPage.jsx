@@ -24,7 +24,7 @@ const InvoicesPage = (props) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(true);
-  const itemsPerPage = 12;
+  const itemsPerPage = 10;
 
   //Recuperation des invoices au pres de l'api
   const fetchInvoices = async () => {
@@ -87,8 +87,14 @@ const InvoicesPage = (props) => {
   return (
     <>
       <div className="mb-3 d-flex justify-content-between align-items-center">
-        <h1>Liste des factures</h1>
-        <Link to="/invoices/new" className="btn btn-primary">
+        <h1 className="fadeInLeftBig animated">Liste des factures</h1>
+        <Link
+          to="/invoices/new"
+          className="btn fadeInRightBig animated btn-label btn-primary"
+        >
+          <label htmlFor="">
+            <i className="ti-plus"></i>
+          </label>
           Créer une facture
         </Link>
       </div>
@@ -110,7 +116,7 @@ const InvoicesPage = (props) => {
           </thead>
           <tbody>
             {paginatedInvoices.map((invoice) => (
-              <tr key={invoice.id}>
+              <tr className="hover-shadow-5" key={invoice.id}>
                 <td>{invoice.chrono}</td>
                 <td>
                   <Link to={"/customers/" + invoice.customer.id}>
@@ -120,7 +126,9 @@ const InvoicesPage = (props) => {
                 <td className="text-center">{formatDate(invoice.sentAt)}</td>
                 <td className="text-center">
                   <span
-                    className={"badge badge-" + STATUS_CLASSES[invoice.status]}
+                    className={
+                      " px-3 py-2 badge badge-" + STATUS_CLASSES[invoice.status]
+                    }
                   >
                     {STATUS_LABEL[invoice.status]}
                   </span>
@@ -131,14 +139,20 @@ const InvoicesPage = (props) => {
                 <td>
                   <Link
                     to={"/invoices/" + invoice.id}
-                    className="btn btn-sm btn-warning mr-1"
+                    className="btn btn-sm btn-label btn-warning mr-1"
                   >
+                    <label htmlFor="">
+                      <span className="ti-settings"></span>
+                    </label>
                     Modifier
                   </Link>
                   <button
                     onClick={() => handleDelete(invoice.id)}
-                    className="btn btn-sm btn-danger"
+                    className="btn btn-sm btn-label btn-danger"
                   >
+                    <label htmlFor="">
+                      <i className="ti-close"></i>
+                    </label>
                     Supprimer
                   </button>
                 </td>
