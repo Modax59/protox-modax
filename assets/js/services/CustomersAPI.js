@@ -8,35 +8,28 @@ async function findAll() {
 
   return axios.get(CUSTOMERS_API).then((response) => {
     const customers = response.data["hydra:member"];
-    Cache.set("customers", customers);
+
     return customers;
   });
 }
 
 async function deleteCustomer(id) {
-  return axios.delete(CUSTOMERS_API + "/" + id).then((response) => {
-    Cache.invalidate("customers");
-  });
+  return axios.delete(CUSTOMERS_API + "/" + id);
 }
 
 function find(id) {
   return axios.get(CUSTOMERS_API + "/" + id).then((response) => {
     const data = response.data;
-    Cache.invalidate("customers");
     return data;
   });
 }
 
 function update(id, customer) {
-  return axios.put(CUSTOMERS_API + "/" + id, customer).then((response) => {
-    Cache.invalidate("customers");
-  });
+  return axios.put(CUSTOMERS_API + "/" + id, customer);
 }
 
 function create(customer) {
-  return axios.post(CUSTOMERS_API, customer).then((response) => {
-    Cache.invalidate("customers");
-  });
+  return axios.post(CUSTOMERS_API, customer);
 }
 export default {
   findAll,

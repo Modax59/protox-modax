@@ -1,10 +1,15 @@
 import React from "react";
 
-const Button = ({ loading, children }) => {
+const Button = ({
+  loading,
+  children,
+  className = " ",
+  btnlabel = " btn-label",
+}) => {
   return (
     <button
       type="submit"
-      className="btn btn-label btn-success"
+      className={"btn btn-success " + className + btnlabel}
       disabled={loading}
     >
       {loading ? (

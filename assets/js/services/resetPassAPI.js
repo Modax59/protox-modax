@@ -1,8 +1,9 @@
 import axios from "axios";
+import { API_URL } from "../config";
 
 async function EmailToId(email) {
   return axios
-    .get("http://localhost:8000/api/get/emailToId/" + email)
+    .get(API_URL+ "get/emailToId/" + email)
     .then((response) => response.data);
 }
 

@@ -15,6 +15,7 @@ class InvoiceIncrementationController
      * @var ObjectManager
      */
     private $manager;
+
     public function __construct(EntityManagerInterface $manager)
     {
         $this->manager = $manager;

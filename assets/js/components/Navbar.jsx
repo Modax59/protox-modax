@@ -35,8 +35,11 @@ const Navbar = ({ history }) => {
   };
   return (
     <nav className="navbar navbar-expand-lg navbar bg">
-      <NavLink className="navbar-brand py-3" to="/">
-        SymReact
+      <NavLink
+        className="navbar-brand  mt-30 pl-100 py-3 h1 text-primary font-effort"
+        to="/"
+      >
+        Prorox
       </NavLink>
       <button
         className="navbar-toggler"
@@ -47,48 +50,53 @@ const Navbar = ({ history }) => {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span className="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon">
+          <i className="ti-menu"></i>
+        </span>
       </button>
 
       <div className="collapse navbar-collapse" id="navbarColor03">
         <ul className="navbar-nav mr-auto">
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/customers">
+          <li className="nav-item pt-10">
+            <NavLink className="nav-link pt-20  pl-50 h3" to="/customers">
               Clients
             </NavLink>
           </li>
-          <li className="nav-item">
-            <NavLink className="nav-link" to="/invoices">
+          <li className="nav-item pt-10">
+            <NavLink className="nav-link pt-20 pl-50 h3" to="/invoices">
               Factures
             </NavLink>
           </li>
         </ul>
-        <ul className="navbar-nav ml-auto">
+        <ul className="navbar-nav ml-auto pr-3">
           {(!isAuthenticated && (
             <>
-              <li className="nav-item">
-                <NavLink to="/register" className="nav-link">
+              <li className="nav-item pt-10">
+                <NavLink to="/register" className="nav-link h3 pt-2 ">
                   Inscritpion
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <NavLink to="/login" className="btn btn-success">
+              <li className="nav-item pt-10">
+                <NavLink to="/login" className="btn btn-lg  btn-primary">
                   Connexion
                 </NavLink>
               </li>{" "}
             </>
           )) || (
             <>
-              <li className="nav-item pr-3">
+              <li className="nav-item pr-3 pt-10 pl-50">
                 <NavLink
                   to={"/users/" + id}
-                  className="btn btn-primary btn-round"
+                  className="btn btn-lg btn-outline btn-primary"
                 >
-                  {firstName}
+                  <i className="ti-user"></i> Profil
                 </NavLink>
               </li>
-              <li className="nav-item">
-                <button onClick={handleLogout} className="btn btn-danger">
+              <li className="nav-item pt-10 ">
+                <button
+                  onClick={handleLogout}
+                  className="btn btn-lg  btn-danger"
+                >
                   Déconnexion
                 </button>
               </li>
