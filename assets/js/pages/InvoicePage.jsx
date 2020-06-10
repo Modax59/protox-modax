@@ -37,7 +37,7 @@ const InvoicePage = ({history, match}) => {
             setCustomers(data);
             setLoading(false);
 
-
+            if (!invoice.customer && id == "new") setInvoice({...invoice, customer: data[0].id});
         } catch (error) {
             toast.error(
                 "Une erreur est survenue :Impossible de charger les clients 😟"
@@ -62,7 +62,7 @@ const InvoicePage = ({history, match}) => {
 
     //Recuperation de la liste des clients à chaque chargment de la page
     useEffect(() => {
-        fetchCustomers();
+            fetchCustomers();
     }, []);
 
     //Recuperation de la bonne facture quand l'identifiant de l'url change
