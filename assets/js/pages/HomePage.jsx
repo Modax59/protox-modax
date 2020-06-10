@@ -8,20 +8,20 @@ const HomePage = (props) => {
             <div className="row">
                 <div className="col-md-6">
                     <div className="display-3 pt-5 font-weight-bold font-effort">
-                        Prorox
+                        Protox
                     </div>
                     <div className="display-3 pt-2 font-weight-bold">Free CRM</div>
                     <div className="pt-5">
                         <p className="lead text-dark text-monospace">
-                            <span className="font-effort">PROROX</span> est un CRM (Customer
+                            <span className="font-effort">PROTOX</span> est un CRM (Customer
                             Relationship Management).
-                            <span className="font-effort"> PROROX</span> vous permettra de
+                            <span className="font-effort"> PROTOX</span> vous permettra de
                             gerer tous vos clients ainsi que vos factures appartenant à vos
                             clients. Facile d'utilisation, responsive, et intéractifs, il est
                             entièrement gratuit.
                         </p>
                         <p className="lead text-dark text-monospace"><span
-                            className="font-effort"> PROROX</span> réalisé par Modax</p>
+                            className="font-effort"> PROTOX</span> réalisé par Modax</p>
                     </div>
                     <div className="pt-4">
                         <div className="row">
