@@ -39,7 +39,7 @@ const Navbar = ({ history }) => {
         className="navbar-brand  mt-30 pl-100 py-3 h1 text-primary font-effort"
         to="/"
       >
-        Prorox
+        Protox
       </NavLink>
       <button
         className="navbar-toggler"
