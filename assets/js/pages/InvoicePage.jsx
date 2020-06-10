@@ -37,7 +37,7 @@ const InvoicePage = ({history, match}) => {
             setCustomers(data);
             setLoading(false);
 
-            if (!invoice.customer) setInvoice({...invoice, customer: data[0].id});
+
         } catch (error) {
             toast.error(
                 "Une erreur est survenue :Impossible de charger les clients 😟"
