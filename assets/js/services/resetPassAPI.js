@@ -1,36 +1,33 @@
 import axios from "axios";
-import { API_URL } from "../config";
+import {API_URL, USERS_API} from "../config";
 
-async function EmailToId(email) {
-  return axios
-    .get(API_URL+ "get/emailToId/" + email)
-    .then((response) => response.data);
-}
-
-async function SendEmailWithID(id) {
+async function SendEmail(email) {
   return axios.post(
-    "http://localhost:8000/api/users/" + id + "/ForgotPass",
+    API_URL+"ForgotPass/"+ email ,
     {}
   );
 }
 
-async function TokenToId(token) {
+async function tokenIsValid(token) {
   return axios.post(
-    "http://localhost:8000/api/reset/" + token + "/ResetPass",
+      API_URL+"reset/" + token + "/ResetPass",
     {}
   );
 }
 
-async function NewPassword(id, user, password) {
-  return axios.post("http://localhost:8000/api/users/newpass/" + id, {
-    ...user,
-    password: password,
+async function NewPassword(token, password) {
+  return axios.post(USERS_API+"newpass/" + token, {
+    password
   });
 }
 
+async function getUserByEmail(email) {
+  return axios.get(API_URL+"getUser/"+email,{});
+}
+
 export default {
-  EmailToId,
-  SendEmailWithID,
-  TokenToId,
+  SendEmail,
+  tokenIsValid,
   NewPassword,
+  getUserByEmail,
 };

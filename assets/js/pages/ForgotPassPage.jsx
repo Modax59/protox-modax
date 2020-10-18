@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import resetPassAPI from "../services/resetPassAPI";
 
-const ForgotPass = (props) => {
+const ForgotPassPage = (props) => {
   const [btnLoading, setBtnLoading] = useState(false);
   const [user, setUser] = useState({
     email: "",
@@ -22,11 +22,10 @@ const ForgotPass = (props) => {
     event.preventDefault();
     setBtnLoading(true);
     try {
-      //Recuperation de l'id utilisateur via adresse mail
-      const id = await resetPassAPI.EmailToId(user.email);
-      //Envoie de l'id pour envoyer le mail
-      await resetPassAPI.SendEmailWithID(id);
+      //Envoie requete pour mail
+      await resetPassAPI.SendEmail(user.email);
       toast.success("Un email de recuperation vous a été envoyé 😄");
+
       setBtnLoading(false);
     } catch (error) {
       setError(
@@ -39,7 +38,7 @@ const ForgotPass = (props) => {
 
   return (
     <>
-      <h1>Mot de passe oublié</h1>
+      <h1>Mot de passe oublié ?</h1>
 
       <form onSubmit={handleSubmit}>
         <Field
@@ -63,4 +62,4 @@ const ForgotPass = (props) => {
   );
 };
 
-export default ForgotPass;
+export default ForgotPassPage;

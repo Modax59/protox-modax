@@ -25895,3 +25895,7 @@ a.text-danger:focus {
   width: 100px;
   height: auto;
 }
+
+.navbarColor{
+  background-color: #EBF3FE!important;
+}

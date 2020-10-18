@@ -67,7 +67,7 @@ const LoginPage = ({history}) => {
                             type="password"
                             error=""
                         />
-                        <div className="form-group py-3">
+                        <div className="form-group">
                             <Button
                                 loading={btnLoading}
                                 className="btn-bold btn-block"
@@ -75,12 +75,19 @@ const LoginPage = ({history}) => {
                             >
                                 Je me connecte
                             </Button>
-                        </div>
-
-                        <div className="form-group">
-                            <div className="divider"/>
-                            Pas de compte ?
-                            <Link to="/register"> Inscription</Link>
+                            <div className="pt-2">
+                                <Link to="/forgotPassword">Mot de passe oublié ?</Link>
+                                <div className="divider ">Pas de compte ?</div>
+                                <Link to="/register">
+                                    <Button
+                                        loading={btnLoading}
+                                        className="btn-bold btn-block btn-secondary"
+                                        btnlabel=" "
+                                    >
+                                        Inscription
+                                    </Button>
+                                </Link>
+                            </div>
                         </div>
                     </form>
                 </div>

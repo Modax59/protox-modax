@@ -82,7 +82,7 @@ const InvoicePage = ({history, match}) => {
     const handleSubmit = async (event) => {
         const auth = AuthAPI.isAuthenticated();
         event.preventDefault();
-        if (auth == true) {
+        if (auth === true) {
             try {
                 setBtnLoading(true);
                 if (editing) {

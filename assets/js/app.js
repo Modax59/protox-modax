@@ -15,8 +15,8 @@ import InvoicePage from "./pages/InvoicePage";
 import RegisterPage from "./pages/RegisterPage";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import ResetPass from "./pages/ResetPassPage";
-import ForgotPass from "./pages/ForgotPassPage";
+import ResetPassPage from "./pages/ResetPassPage";
+import ForgotPassPage from "./pages/ForgotPassPage";
 import UserPage from "./pages/UserPage";
 
 AuthAPI.setup();
@@ -42,11 +42,13 @@ const App = () => {
           <Switch>
             <Route path="/login" component={LoginPage} />
             <Route path="/register" component={RegisterPage} />
-            <PrivateRoute path="/users/:id" component={UserPage} />
+            <PrivateRoute path="/user" component={UserPage} />
             <PrivateRoute path="/invoices/:id" component={InvoicePage} />
             <PrivateRoute path="/invoices" component={InvoicesPage} />
             <PrivateRoute path="/customers/:id" component={CustomerPage} />
             <PrivateRoute path="/customers" component={CustomersPage} />
+            <Route path="/resetPass/:token" component={ResetPassPage} />
+            <Route path="/forgotPassword" component={ForgotPassPage} />
             <Route path="/" component={HomePage} />
           </Switch>
         </main>

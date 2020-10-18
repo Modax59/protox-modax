@@ -73,7 +73,7 @@ const CustomersPage = (props) => {
 
     return (
         <>
-            <div className=" mb-3 d-flex justify-content-between align-items-center">
+            <div className="mb-3 d-flex justify-content-between align-items-center">
                 <h1 className="fadeInLeftBig animated">Liste des clients</h1>
                 <Link
                     to="/customers/new"
@@ -90,7 +90,6 @@ const CustomersPage = (props) => {
                 <table className="table table-hover">
                     <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Client</th>
                         <th>Email</th>
                         <th>Entreprise</th>
@@ -103,7 +102,6 @@ const CustomersPage = (props) => {
                     <tbody>
                     {paginatedCustomers.map((customer) => (
                         <tr className="hover-shadow-5" key={customer.id}>
-                            <td>{customer.id}</td>
                             <td>
                                 <Link to={"/customers/" + customer.id}>
                                     {customer.firstName} {customer.lastName}

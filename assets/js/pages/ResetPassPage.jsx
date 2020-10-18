@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import resetPassAPI from "../services/resetPassAPI";
 import { Redirect } from "react-router-dom";
 
-const ResetPass = ({ history, match }) => {
+const ResetPassPage = ({ history, match }) => {
   const [user, setUser] = useState({
     password: "",
     passwordConfirm: "",
@@ -35,25 +35,26 @@ const ResetPass = ({ history, match }) => {
 
   //Effet a chaque changement du token dans la bar d'url
   useEffect(() => {
-    if (token !== "try") {
-      TokenBy(token);
-    }
+      tokenIsValid(token);
   }, [token]);
 
   //Recupère l'utilisateur lié au token
-  const TokenBy = async (token) => {
+  const tokenIsValid = async (token) => {
     try {
-      const response = await resetPassAPI.TokenToId(token);
+      const response = await resetPassAPI.tokenIsValid(token);
       const BadToken = response.data["hydra:member"];
       setEditing(true);
       setId(response.data.id);
-      if (BadToken[0] == null) {
+      if (BadToken[0] === "notValide") {
         setErrorBadToken(true);
         toast.error(
-          "Erreur est survenue dans le formulaire (Le token n'existe plus) 😕"
+          "Erreur est survenue dans le formulaire (Le token n'existe plus ou à expiré) 😕"
         );
+        setEditing(false);
         return;
+
       }
+      setEditing(true);
     } catch (error) {
       setEditing(false);
     }
@@ -64,7 +65,7 @@ const ResetPass = ({ history, match }) => {
     event.preventDefault();
     setBtnLoading(true);
     const apiError = {};
-    if (user.password == "") {
+    if (user.password === "") {
       setBtnLoading(false);
       apiError.password = "Votre mot de passe ne peut pas etre vide";
       setError(apiError);
@@ -81,12 +82,13 @@ const ResetPass = ({ history, match }) => {
     }
     //test d'Envoie le nouveau mot de passe
     try {
-      await resetPassAPI.NewPassword(id, userC, userC.password);
+      await resetPassAPI.NewPassword(token, userC.password);
       toast.success("Votre mot de passe à été changé avec succès 😄");
       toast.success(
         "Vous pouvez désormais vous connecter avec votre nouveau mot de passe !😄"
       );
       setBtnLoading(false);
+      history.replace("/login");
     } catch (error) {
       toast.error(
         "Une erreur est survenue lors du changement de mot de passe 😟"
@@ -98,7 +100,7 @@ const ResetPass = ({ history, match }) => {
   return (
     <>
       <h1>Reset du mot de passe</h1>
-
+      {editing === true ?
       <form onSubmit={handleSubmit}>
         <Field
           label="Mot de passe"
@@ -123,8 +125,10 @@ const ResetPass = ({ history, match }) => {
           <Button loading={btnLoading}>Enregistrer</Button>
         </div>
       </form>
+      :""
+      }
     </>
   );
 };
 
-export default ResetPass;
+export default ResetPassPage;

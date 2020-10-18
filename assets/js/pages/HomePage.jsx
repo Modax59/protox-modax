@@ -1,6 +1,7 @@
 import React from "react";
 import svg from "../../img/startup.svg";
 import {NavLink} from "react-router-dom";
+import authAPI from "../services/authAPI";
 
 const HomePage = (props) => {
     return (
@@ -23,8 +24,9 @@ const HomePage = (props) => {
                         <p className="lead text-dark text-monospace"><span
                             className="font-effort"> PROTOX</span> réalisé par Modax</p>
                     </div>
-                    <div className="pt-4">
+                    {!authAPI.isAuthenticated() && (<div className="pt-4">
                         <div className="row">
+
                             <div className="col-md-6">
                                 <NavLink
                                     className="btn btn-outline-dark px-5 py-3"
@@ -40,6 +42,7 @@ const HomePage = (props) => {
                             </div>
                         </div>
                     </div>
+                    )}
                 </div>
                 <div className="col-md-6">
                     <div className="pl-5 ml-5">

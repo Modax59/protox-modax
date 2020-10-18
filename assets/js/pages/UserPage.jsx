@@ -3,10 +3,13 @@ import axios from "axios";
 import {toast} from "react-toastify";
 import Profil from "../../img/profil.svg";
 import Field from "../components/forms/Field";
-import { USERS_API } from "../config";
+import {USERS_API} from "../config";
+import AuthAPI from "../services/authAPI";
+import resetPassAPI from "../services/resetPassAPI";
 
 const UserPage = ({match}) => {
-    const {id = ""} = match.params;
+
+    const [id,setId] = useState();
     const [user, setUser] = useState({
         lastName: "",
         firstName: "",
@@ -22,15 +25,17 @@ const UserPage = ({match}) => {
 
     useEffect(() => {
         fetchUser(id);
-    }, [id]);
+    }, []);
 
     const fetchUser = async (id) => {
         try {
+            const emailU = AuthAPI.getEmail();
+            const data = await resetPassAPI.getUserByEmail(emailU);
+            id=(data.data.id);
             const {firstName, lastName, email} = await axios
-                .get(USERS_API+ "/" + id)
+                .get(USERS_API + "/" + id)
                 .then((Response) => Response.data);
             setUser({firstName, lastName, email});
-
             setLoading(false);
         } catch (error) {
             toast.error("Le client n'a pas pu etre chargé 😟");
@@ -50,7 +55,7 @@ const UserPage = ({match}) => {
                         <div className="card-body">
                             <ul>
                                 <h3>
-                                    <i className="ti-angle-right"></i> Mes informations
+                                    <i className="ti-angle-right"/> Mes informations
                                 </h3>
                             </ul>
                         </div>

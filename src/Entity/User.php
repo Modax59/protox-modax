@@ -24,24 +24,28 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  * },
  *       "newPass"={
  *              "method"="post",
- *              "path"="/users/newpass/{id}",
+ *              "path"="/users/newpass/{token}",
  *              "controller"="App\Controller\user\NewPasswordController",
  *               },
- *       "emailToId"={
- *      "method"="get",
- *      "path"="/get/emailToId/{email}",
- *      "controller"="App\Controller\user\EmailToIdController"
- * },
  * },
  *  itemOperations={"GET", "PUT", "DELETE", "ForgotPass"={
  *      "method"="post",
- *      "path"="/users/{id}/ForgotPass",
+ *      "path"="ForgotPass/{email}",
  *      "controller"="App\Controller\user\ForgotPasswordController",
+ *     "defaults"={"email"="email"},
+ *     "read"=false,
  *      "swagger_context"={
  *          "summary"="Mail reset password",
  *          "description"="Envoie de mail pour reset password"
  *          }
- *      }
+ *      },
+ *     "UserByEmail"={
+        "method"="get",
+ *      "path"="getUser/{email}",
+ *      "controller"="App\Controller\user\UserByEmailController",
+ *      "defaults"={"email"="email"},
+ *      "read"=false,
+ *     }
  *  }
  * )
  * @UniqueEntity("email",message="Cette adresse email existe déjà")

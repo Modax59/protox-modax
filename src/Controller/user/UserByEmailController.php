@@ -8,7 +8,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\HttpFoundation\Request;
 
-class ResetPasswordController
+class UserByEmailController
 {
 
     /**
@@ -16,26 +16,22 @@ class ResetPasswordController
      *
      * @var ObjectManager
      */
-    private $manager;
     /**
      * @var UserRepository
      */
     private $userRepository;
 
-    public function __construct(EntityManagerInterface $manager, UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository)
     {
-        $this->manager = $manager;
         $this->userRepository = $userRepository;
     }
 
     public function __invoke(Request $request)
     {
-        $token = $request->attributes->get('token');
-        $user = $this->userRepository->findOneBy(['resetPassToken' => $token]);
-        if($user instanceof User){
-            return $message = ["valide"];
-        }else{
-            return $message =["notValide"];
+        $email = $request->attributes->get('email');
+        $user = $this->userRepository->findOneBy(['email' => $email]);
+        if($user instanceof User) {
+            return $user;
         }
     }
 }

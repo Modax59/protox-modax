@@ -3,11 +3,17 @@
 namespace App\Controller\user;
 
 use App\Entity\User;
+use App\Repository\UserRepository;
+use App\Service\EmailService;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Common\Persistence\ObjectManager;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 
-class ForgotPasswordController
+class ForgotPasswordController extends AbstractController
 {
 
     /**
@@ -18,24 +24,37 @@ class ForgotPasswordController
     private $manager;
     private $mailer;
     private $tokenGenerator;
-    public function __construct(EntityManagerInterface $manager, \Swift_Mailer $mailer, TokenGeneratorInterface $tokenGenerator)
+    /**
+     * @var UserRepository
+     */
+    private $userRepository;
+    /**
+     * @var EmailService
+     */
+    private $emailService;
+
+    public function __construct(EntityManagerInterface $manager, MailerInterface $mailer, TokenGeneratorInterface $tokenGenerator, UserRepository $userRepository,EmailService $emailService)
     {
         $this->tokenGenerator = $tokenGenerator;
         $this->manager = $manager;
         $this->mailer = $mailer;
+        $this->userRepository = $userRepository;
+        $this->emailService = $emailService;
     }
 
-    public function __invoke(User $data)
+    public function __invoke(Request $request)
     {
-        $token = $this->tokenGenerator->generateToken();
-        $data->setResetPassToken($token);
-        $this->manager->flush();
-        $url = "http://localhost:8000/#/resetpass/" . $token;
-        $message = (new \Swift_Message('Mot de passe oublié'))
-            ->setFrom('epid.verhille.c@gmail.com')
-            ->setTo('epid.verhille.c@gmail.com')
-            ->setBody("<p>Bonjour, </p><p> Une demande de réinitialisation de mot de passe a été effectuée pour le site Modax.fr. Veuillez cliquer sur le lien suivant : " . $url . '</p>', 'text/html');
-        $this->mailer->send($message);
-        return $data;
+        $email = $request->attributes->get('email');
+        $user = $this->userRepository->findOneBy(array('email'=>$email));
+        if ($user instanceof User) {
+            $token = $this->tokenGenerator->generateToken();
+            $user->setResetPassToken($token);
+            $this->manager->flush();
+            $path = $this->getParameter('resetPassPath');
+            $url = $path . "resetpass/" . $token;
+            $this->emailService->sendEmail('EPID.verhille.C@gmail.com', 'Changement de mot de passe', 'emails/ForgotPasswordEmail.html.twig', $url, $user);
+            $message =array("success");
+            return $message;
+        }
     }
 }
