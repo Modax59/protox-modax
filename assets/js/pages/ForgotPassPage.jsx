@@ -38,7 +38,7 @@ const ForgotPassPage = (props) => {
 
   return (
     <>
-      <h1>Mot de passe oublié ?</h1>
+      <h1 className="text-3xl">Mot de passe oublié ?</h1>
 
       <form onSubmit={handleSubmit}>
         <Field

@@ -6,6 +6,8 @@ import {toast} from "react-toastify";
 import TableLoader from "../components/loaders/TableLoader";
 import SearchBar from "../components/forms/SearchBar";
 import authAPI from "../services/authAPI";
+import AlertWarningDelete from "../components/Alerts/AlertWarningDelete";
+import AlertSuccess from "../components/Alerts/AlertSuccess";
 
 const CustomersPage = (props) => {
     const [customers, setCustomers] = useState([]);
@@ -35,6 +37,7 @@ const CustomersPage = (props) => {
         setCustomers(customers.filter((customer) => customer.id !== id));
         try {
             await CustomersAPI.delete(id);
+            AlertSuccess({text:"Client Supprimé avec succès !"})
             toast.success("Le client a bien été supprimé 😀");
         } catch (error) {
             setCustomers(originalCustomers);
@@ -74,10 +77,10 @@ const CustomersPage = (props) => {
     return (
         <>
             <div className="mb-3 d-flex justify-content-between align-items-center">
-                <h1 className="fadeInLeftBig animated">Liste des clients</h1>
+                <h1 className="fadeInLeftBig animated text-3xl">Liste des clients</h1>
                 <Link
                     to="/customers/new"
-                    className=" fadeInRightBig animated btn btn-label btn-primary"
+                    className=" fadeInRightBig animated btn btn-label btn-primary blueBackGround rounded-pill shadow-material-2"
                 >
                     <label htmlFor="">
                         <i className="ti-plus"></i>
@@ -85,9 +88,11 @@ const CustomersPage = (props) => {
                     Créer un client
                 </Link>
             </div>
-            <SearchBar onChange={handleSearch} value={search}/>
+            <div className="form-inline">
+                <SearchBar value={search} onChange={handleSearch}/>
+            </div>
             {!loading && (
-                <table className="table table-hover">
+                <table className="table table-hover table-separated">
                     <thead>
                     <tr>
                         <th>Client</th>
@@ -101,9 +106,9 @@ const CustomersPage = (props) => {
 
                     <tbody>
                     {paginatedCustomers.map((customer) => (
-                        <tr className="hover-shadow-5" key={customer.id}>
+                        <tr className="shadow-material-1 hover-shadow-material-2 table-perso hello" key={customer.id}>
                             <td>
-                                <Link to={"/customers/" + customer.id}>
+                                <Link className="blueColor " to={"/customers/" + customer.id}>
                                     {customer.firstName} {customer.lastName}
                                 </Link>
                             </td>
@@ -119,7 +124,11 @@ const CustomersPage = (props) => {
                             </td>
                             <td>
                                 <button
-                                    onClick={() => handleDelete(customer.id)}
+                                    onClick={() => AlertWarningDelete({text: "Une fois supprimé, vous ne pourrez plus récupérer ce client !"}).then((willDelete) => {
+                                        if (willDelete) {
+                                            handleDelete(customer.id)
+                                        }
+                                    })}
                                     disabled={customer.invoices.length > 0}
                                     className="btn btn-sm btn-danger"
                                 >

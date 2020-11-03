@@ -80,7 +80,6 @@ const LoginPage = ({history}) => {
                                 <div className="divider ">Pas de compte ?</div>
                                 <Link to="/register">
                                     <Button
-                                        loading={btnLoading}
                                         className="btn-bold btn-block btn-secondary"
                                         btnlabel=" "
                                     >

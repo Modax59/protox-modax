@@ -96,8 +96,8 @@ const CustomerPage = ({match, history}) => {
     };
     return (
         <>
-            {(!editing && <h1>Création d'un client</h1>) || (
-                <h1>Modification du client</h1>
+            {(!editing && <h1 className="text-3xl">Création d'un client</h1>) || (
+                <h1 className="text-3xl">Modification du client</h1>
             )}
             {loading && <FormContentLoader/>}
 

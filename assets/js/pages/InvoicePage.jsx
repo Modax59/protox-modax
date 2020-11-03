@@ -116,8 +116,8 @@ const InvoicePage = ({history, match}) => {
 
     return (
         <>
-            {(editing && <h1>Modification de la facture</h1>) || (
-                <h1>Création d'une facture </h1>
+            {(editing && <h1 className="text-3xl">Modification de la facture</h1>) || (
+                <h1 className="text-3xl">Création d'une facture </h1>
             )}
             {loading && <FormContentLoader/>}
             {!loading && (

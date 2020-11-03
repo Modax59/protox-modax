@@ -2,17 +2,19 @@ import moment from "moment";
 import React, {useEffect, useState} from "react";
 import Pagination from "../components/Pagination";
 import InvoicesAPI from "../services/InvoicesAPI";
-import {Link} from "react-router-dom";
+import {Link, NavLink} from "react-router-dom";
 import {toast} from "react-toastify";
 import TableLoader from "../components/loaders/TableLoader";
 import SearchBar from "../components/forms/SearchBar";
-import authAPI from "../services/authAPI";
+import AlertWarningDelete from "../components/Alerts/AlertWarningDelete";
+import AlertSuccess from "../components/Alerts/AlertSuccess";
 
 const STATUS_CLASSES = {
     PAID: "success",
     SENT: "secondary",
     CANCELLED: "danger",
 };
+
 
 const STATUS_LABEL = {
     PAID: "Payée",
@@ -46,9 +48,13 @@ const InvoicesPage = (props) => {
     //Gestion du changement de page
     const handlePageChange = (page) => setCurrentPage(page);
 
-    //Gestion de la recherche
     const handleSearch = (event) => {
         setSearch(event.currentTarget.value);
+        setCurrentPage(1);
+    };
+
+    const handleSearch1 = (event) => {
+        setSearch(event.currentTarget.id);
         setCurrentPage(1);
     };
 
@@ -58,6 +64,7 @@ const InvoicesPage = (props) => {
         setInvoices(invoices.filter((invoice) => invoice.id !== id));
         try {
             await InvoicesAPI.delete(id);
+            AlertSuccess({text:"Facture Supprimé avec succès !"})
             toast.success("La facture a bien été supprimée 😄");
         } catch (error) {
             toast.error("Une erreur est survenue 😕");
@@ -88,23 +95,32 @@ const InvoicesPage = (props) => {
     return (
         <>
             <div className="mb-3 d-flex justify-content-between align-items-center">
-                <h1 className="fadeInLeftBig animated">Liste des factures</h1>
+                <h1 className="fadeInLeftBig animated text-3xl">Liste des factures</h1>
                 <Link
                     to="/invoices/new"
-                    className="btn fadeInRightBig animated btn-label btn-primary"
+                    className="fadeInRightBig animated btn btn-label btn-primary blueBackGround rounded-pill shadow-material-2"
                 >
                     <label htmlFor="">
-                        <i className="ti-plus"></i>
+                        <i className="ti-plus"/>
                     </label>
                     Créer une facture
                 </Link>
             </div>
-
-            <div className="form-group">
+            <div className="form-inline">
+                <span className="text-lg "><span onClick={handleSearch1}
+                                                 className={search === "" ? "hover-bg-blue-base-spacing cursor-pointer active-invoices" : "hover-bg-blue-base-spacing cursor-pointer"}
+                                                 id="">Toutes les factures</span></span>
+                <span className="pl-3 text-lg"><span onClick={handleSearch1}
+                                                     className={search === "Payée" ? "hover-bg-blue-base-spacing cursor-pointer active-invoices" : "hover-bg-blue-base-spacing cursor-pointer"}
+                                                     id="Payée">Payée</span></span>
+                <span className="pl-3 text-lg"><span onClick={handleSearch1}
+                                                     className={search === "Annulée" ? "hover-bg-blue-base-spacing cursor-pointer active-invoices" : "hover-bg-blue-base-spacing cursor-pointer"}
+                                                     id="Annulée">Non payée</span></span>
                 <SearchBar value={search} onChange={handleSearch}/>
             </div>
+            <span className="hr"/>
             {!loading && (
-                <table className="table table-hover">
+                <table className="table table-hover table-separated">
                     <thead>
                     <tr>
                         <th>Numéro</th>
@@ -112,17 +128,17 @@ const InvoicesPage = (props) => {
                         <th className="text-center">Date d'envoie</th>
                         <th className="text-center">Statut</th>
                         <th className="text-center">Montant</th>
-                        <th></th>
+                        <th/>
                     </tr>
                     </thead>
                     <tbody>
                     {paginatedInvoices.map((invoice) => (
-                        <tr className="hover-shadow-5" key={invoice.id}>
+                        <tr className="shadow-material-1 hover-shadow-material-2 table-perso" key={invoice.id}>
                             <td>{invoice.chrono}</td>
                             <td>
-                                <Link to={"/customers/" + invoice.customer.id}>
+                                <NavLink className="blueColor" to={"/customers/" + invoice.customer.id}>
                                     {invoice.customer.firstName} {invoice.customer.lastName}
-                                </Link>
+                                </NavLink>
                             </td>
                             <td className="text-center">{formatDate(invoice.sentAt)}</td>
                             <td className="text-center">
@@ -148,7 +164,11 @@ const InvoicesPage = (props) => {
                                     Modifier
                                 </Link>
                                 <button
-                                    onClick={() => handleDelete(invoice.id)}
+                                    onClick={() => AlertWarningDelete({text: "Une fois supprimé, vous ne pourrez plus récupérer cette facture !"}).then((willDelete) => {
+                                        if (willDelete) {
+                                            handleDelete(invoice.id)
+                                        }
+                                    })}
                                     className="btn btn-sm btn-label btn-danger"
                                 >
                                     <label htmlFor="">

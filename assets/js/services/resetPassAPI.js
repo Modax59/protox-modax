@@ -16,7 +16,7 @@ async function tokenIsValid(token) {
 }
 
 async function NewPassword(token, password) {
-  return axios.post(USERS_API+"newpass/" + token, {
+  return axios.post(USERS_API+"/newpass/" + token, {
     password
   });
 }
