@@ -12,6 +12,7 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\InvoiceRepository")
+ * @ORM\HasLifecycleCallbacks()
  * @ApiResource(
  * subresourceOperations={
  *      "api_customers_invoices_get_subresource"={
@@ -84,6 +85,18 @@ class Invoice
     private $chrono;
 
     /**
+     * @ORM\Column(type="text", nullable=true)
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="datetime", nullable=true)
+     * @Groups({"invoices_read", "customers_read", "invoices_subresource"})
+     */
+    private $updatedAt;
+
+    /**
      * Permet de récuperer à qui appartient la facture
      * @Groups({"invoices_read", "invoices_subresource"})
      * @return User
@@ -91,6 +104,14 @@ class Invoice
     public function getUser(): User
     {
         return $this->getCustomer()->getUser();
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function changeValueUpdatedAt(){
+        $this->setUpdatedAt(new \DateTime());
     }
 
     public function getId(): ?int
@@ -154,6 +175,30 @@ class Invoice
     public function setChrono($chrono): self
     {
         $this->chrono = $chrono;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeInterface
+    {
+        return $this->updatedAt;
+    }
+
+    public function setUpdatedAt(?\DateTimeInterface $updatedAt): self
+    {
+        $this->updatedAt = $updatedAt;
 
         return $this;
     }

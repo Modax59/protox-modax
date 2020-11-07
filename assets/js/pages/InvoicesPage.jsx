@@ -64,7 +64,7 @@ const InvoicesPage = (props) => {
         setInvoices(invoices.filter((invoice) => invoice.id !== id));
         try {
             await InvoicesAPI.delete(id);
-            AlertSuccess({text:"Facture Supprimé avec succès !"})
+            AlertSuccess({text: "Facture Supprimé avec succès !"})
             toast.success("La facture a bien été supprimée 😄");
         } catch (error) {
             toast.error("Une erreur est survenue 😕");
@@ -74,6 +74,12 @@ const InvoicesPage = (props) => {
 
     //Gestion du format de date
     const formatDate = (str) => moment(str).format("DD/MM/YYYY");
+    const formatDateEdit = (str) => moment(str).format("HH:mm");
+
+    const today = new Date().toLocaleDateString();
+    const yesterday =  moment(today).subtract(1,"day");
+
+
 
     //Gestion de la recherche
     const filteredInvoices = invoices.filter(
@@ -82,7 +88,8 @@ const InvoicesPage = (props) => {
             i.customer.firstName.toLowerCase().includes(search.toLowerCase()) ||
             i.amount.toString().includes(search.toLowerCase()) ||
             STATUS_LABEL[i.status].toLowerCase().includes(search.toLowerCase()) ||
-            formatDate(i.sentAt).toLowerCase().includes(search.toLowerCase())
+            formatDate(i.sentAt).toLowerCase().includes(search.toLowerCase()) ||
+            formatDate(i.updatedAt).toLowerCase().includes(search.toLowerCase())
     );
 
     //Pagination des données
@@ -128,6 +135,7 @@ const InvoicesPage = (props) => {
                         <th className="text-center">Date d'envoie</th>
                         <th className="text-center">Statut</th>
                         <th className="text-center">Montant</th>
+                        <th className="text-center">Modifié</th>
                         <th/>
                     </tr>
                     </thead>
@@ -142,40 +150,36 @@ const InvoicesPage = (props) => {
                             </td>
                             <td className="text-center">{formatDate(invoice.sentAt)}</td>
                             <td className="text-center">
-                  <span
-                      className={
-                          " px-3 py-2 badge badge-" + STATUS_CLASSES[invoice.status]
-                      }
-                  >
-                    {STATUS_LABEL[invoice.status]}
-                  </span>
+                                  <span
+                                      className={
+                                          " px-3 py-2 badge badge-" + STATUS_CLASSES[invoice.status]
+                                      }
+                                  >
+                                    {STATUS_LABEL[invoice.status]}
+                                  </span>
                             </td>
                             <td className="text-center">
                                 {invoice.amount.toLocaleString()} €
                             </td>
-                            <td>
-                                <Link
-                                    to={"/invoices/" + invoice.id}
-                                    className="btn btn-sm btn-label btn-warning mr-1"
-                                >
-                                    <label htmlFor="">
-                                        <span className="ti-settings"></span>
-                                    </label>
-                                    Modifier
+                            <td className="text-center">
+                                {formatDate(today) === formatDate(invoice.updatedAt) ? "Ajourd'hui à "+formatDateEdit(invoice.updatedAt) : formatDate(yesterday) === formatDate(invoice.updatedAt) ? "Hier" :
+                                invoice.updatedAt ? formatDate(invoice.updatedAt) : formatDate(invoice.sentAt)}
+                            </td>
+                            <td className="">
+                                <Link className="btn btn-square btn-pure btn-warning mr-1"
+                                      to={"/invoices/" + invoice.id}>
+                                       <i className="ti-pencil fa-lg"/>
                                 </Link>
-                                <button
-                                    onClick={() => AlertWarningDelete({text: "Une fois supprimé, vous ne pourrez plus récupérer cette facture !"}).then((willDelete) => {
-                                        if (willDelete) {
-                                            handleDelete(invoice.id)
-                                        }
-                                    })}
-                                    className="btn btn-sm btn-label btn-danger"
+                                <button className=" btn btn-square btn-pure btn-danger"
+                                        onClick={() => AlertWarningDelete({text: "Une fois supprimé, vous ne pourrez plus récupérer cette facture !"}).then((willDelete) => {
+                                            if (willDelete) {
+                                                handleDelete(invoice.id)
+                                            }
+                                        })}
                                 >
-                                    <label htmlFor="">
-                                        <i className="ti-close"></i>
-                                    </label>
-                                    Supprimer
+                                    <i className="ti-close fa-lg"/>
                                 </button>
+
                             </td>
                         </tr>
                     ))}

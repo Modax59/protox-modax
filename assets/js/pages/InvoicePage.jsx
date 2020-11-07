@@ -8,6 +8,7 @@ import {toast} from "react-toastify";
 import FormContentLoader from "../components/loaders/FormContentLoader";
 import Button from "../components/forms/Button";
 import AuthAPI from "../services/authAPI";
+import Textarea from "../components/forms/Textarea";
 
 const InvoicePage = ({history, match}) => {
     const {id = "new"} = match.params;
@@ -16,6 +17,7 @@ const InvoicePage = ({history, match}) => {
         amount: "",
         customer: "",
         status: "SENT",
+        description: "",
     });
 
     const [customers, setCustomers] = useState([]);
@@ -28,6 +30,7 @@ const InvoicePage = ({history, match}) => {
         amount: "",
         customer: "",
         status: "",
+        description: "",
     });
 
     //Recuperation des clients
@@ -49,8 +52,8 @@ const InvoicePage = ({history, match}) => {
     //Recuperation d'une facture
     const fetchInvoice = async (id) => {
         try {
-            const {amount, status, customer} = await InvoicesAPI.find(id);
-            setInvoice({amount, status, customer: customer.id});
+            const {amount, status, customer, description} = await InvoicesAPI.find(id);
+            setInvoice({amount, status, customer: customer.id, description: description});
             setLoading(false);
         } catch (error) {
             toast.error(
@@ -156,6 +159,16 @@ const InvoicePage = ({history, match}) => {
                         <option value="PAID">Payée</option>
                         <option value="CANCELLED">Annulée</option>
                     </Select>
+
+                    <Textarea
+                        name="description"
+                        label="Détails supplémentaires"
+                        placeholder="Détails"
+                        row="2"
+                        onChange={handleChange}
+                        value={invoice.description}
+                        error={erros.description}
+                    />
 
                     <div className="form-group">
                         <Button loading={btnLoading}>
