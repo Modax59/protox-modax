@@ -6,10 +6,11 @@ import Field from "../components/forms/Field";
 import {USERS_API} from "../config";
 import AuthAPI from "../services/authAPI";
 import resetPassAPI from "../services/resetPassAPI";
+import Button from "../components/forms/Button";
 
 const UserPage = ({match}) => {
 
-    const [id,setId] = useState();
+    const [id, setId] = useState();
     const [user, setUser] = useState({
         lastName: "",
         firstName: "",
@@ -31,7 +32,7 @@ const UserPage = ({match}) => {
         try {
             const emailU = AuthAPI.getEmail();
             const data = await resetPassAPI.getUserByEmail(emailU);
-            id=(data.data.id);
+            id = (data.data.id);
             const {firstName, lastName, email} = await axios
                 .get(USERS_API + "/" + id)
                 .then((Response) => Response.data);
@@ -55,63 +56,120 @@ const UserPage = ({match}) => {
                         <div className="card-body">
                             <ul>
                                 <h3>
-                                    <i className="ti-angle-right"/> Mes informations
+                                    <i className="ti-angle-right"/> Mon compte
                                 </h3>
                             </ul>
                         </div>
                     </div>
                 </div>
-                <div className="col-md-8 text-center">
-                    <div className="card card-shadowed">
-                        <div className="pt-5 pl-5 pr-5">
-                            <div className="text-center">
-                                <img
-                                    className=""
-                                    src={Profil}
-                                    height="20%"
-                                    width="20%"
-                                    alt=""
-                                />
-                                <hr/>
-                            </div>
-                        </div>
+                <div className="col-md-8">
+                    <div className="card p-4 shadow-5 rounded-extra-lg">
+                            <span className="font-semibold h3">Mon compte</span>
                         <div className="card-body">
                             <div className="row">
                                 <div className="col-md-6">
                                     <Field
                                         label="Nom"
-                                        labelClass="pt-3"
+                                        labelClass="pt-3 font-semibold"
                                         name="lastName"
                                         value={user.lastName}
                                         onChange={handleChange}
                                         placeholder="Nom de famille"
-                                        disabled="disabled"
-                                        moreClass="text-center "
+                                        moreClass="rounded-lg bg-gray-100"
                                     />
                                 </div>
                                 <div className="col-md-6">
                                     <Field
                                         label="Prénom"
-                                        labelClass="pt-3"
+                                        labelClass="pt-3 font-semibold"
                                         name="firstName"
                                         value={user.firstName}
                                         onChange={handleChange}
                                         placeholder="Prénom"
-                                        disabled="disabled"
-                                        moreClass="text-center"
+                                        moreClass="rounded-lg bg-gray-100"
                                     />
                                 </div>
                                 <div className="col-md-12">
+                                    <hr className="hr-sm bg-gray-200"/>
                                     <Field
                                         label="Adresse email"
-                                        labelClass="pt-5"
+                                        labelClass=" font-semibold"
                                         name="username"
                                         value={user.email}
                                         onChange={handleChange}
                                         placeholder="Adresse email de connexion"
-                                        disabled="disabled"
-                                        moreClass="text-center"
+                                        moreClass="rounded-lg readonly bg-gray-100"
                                     />
+                                </div>
+                                <div className="col-md-12">
+                                    <hr className="hr-sm bg-gray-200"/>
+                                </div>
+                                <div className="col-md-6 ">
+                                    <Field
+                                        label="Mot de passe"
+                                        labelClass=" font-semibold"
+                                        name="password"
+                                        value="password"
+                                        type="password"
+                                        onChange={handleChange}
+                                        placeholder="Mot de passe"
+                                        moreClass="rounded-lg readonly bg-gray-100"
+                                    />
+                                </div>
+                                <div className="col-md-6 d-flex">
+                                    <button type="button"
+                                            className="bg-white blueColor font-semibold py-2 px-4 border border-gray-400 rounded shadow my-auto ml-auto">
+                                        Modifier
+                                    </button>
+                                </div>
+                                <div className="col-md-12">
+                                    <hr className="hr-sm bg-gray-200"/>
+                                </div>
+                                <div className="col-md-6">
+                                    <Field
+                                        label="Ancien Mot de passe"
+                                        labelClass=" font-semibold"
+                                        name="password"
+                                        value={user.currentPassword}
+                                        type="password"
+                                        onChange={handleChange}
+                                        placeholder="Mot de passe"
+                                        moreClass="rounded-lg bg-gray-100"
+                                    />
+                                </div>
+                                <div className="col-md-6">
+                                    <Field
+                                        label="Nouveau mot de passe"
+                                        labelClass=" font-semibold"
+                                        name="newPassword"
+                                        type="password"
+                                        value={user.newPassword}
+                                        onChange={handleChange}
+                                        placeholder="Nouveau mot de passe"
+                                        moreClass="rounded-lg bg-gray-100"
+                                    />
+                                </div>
+                                <div className="col-md-12">
+                                    <hr className="hr-sm bg-gray-200"/>
+                                </div>
+                                <div className="col-md-6 ">
+                                    <span className="h6 font-semibold">Supprimer mon compte</span>
+                                    <br/>
+                                    <span className="fs-11 font-medium">En supprimant votre compte, vous perdrez toutes vos données</span>
+                                </div>
+                                <div className="col-md-6 d-flex">
+                                    <button type="button"
+                                            className="bg-white text-red-600 font-semibold py-2 px-4 border border-gray-400 rounded shadow my-auto ml-auto">
+                                        Supprimer mon compte
+                                    </button>
+                                </div>
+                                <div className="col-md-12">
+                                    <hr className="hr-sm bg-gray-200"/>
+                                </div>
+                                <div className="col-md-12 d-flex my-3">
+                                    <Button className="blueBackGround hover:bg-gray-100 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow ml-auto">
+                                        Sauvegarder les changements
+                                    </Button>
                                 </div>
                             </div>
                         </div>
