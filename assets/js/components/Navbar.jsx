@@ -85,12 +85,12 @@ const Navbar = ({history}) => {
                                         <div className="dropdown-menu dropdown-menu-right shadow-material-1"
                                              aria-labelledby="navbarDropdown">
                                             <NavLink to={"/user"} className="dropdown-item hover-shadow-material-1"><i
-                                                className="ti-user"/> Compte</NavLink>
+                                                className="ti-user blueColor"/> Compte</NavLink>
                                             <a className="dropdown-item hover-shadow-material-1" href="#"><i
-                                                className="ti-settings"/> Paramètres</a>
+                                                className="ti-settings text-dark"/> Paramètres</a>
                                             <button onClick={handleLogout}
                                                     className="dropdown-item hover-shadow-material-1"><i
-                                                className="ti-power-off"/> Déconnexion
+                                                className="ti-power-off text-danger"/> Déconnexion
                                             </button>
                                         </div>
                                     </li>

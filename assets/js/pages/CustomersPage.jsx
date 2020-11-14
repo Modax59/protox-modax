@@ -37,7 +37,7 @@ const CustomersPage = (props) => {
         setCustomers(customers.filter((customer) => customer.id !== id));
         try {
             await CustomersAPI.delete(id);
-            AlertSuccess({text:"Client Supprimé avec succès !"})
+            AlertSuccess({text:"Client Supprimé avec succès !"});
             toast.success("Le client a bien été supprimé 😀");
         } catch (error) {
             setCustomers(originalCustomers);

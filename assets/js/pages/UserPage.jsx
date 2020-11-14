@@ -7,10 +7,10 @@ import AuthAPI from "../services/authAPI";
 import resetPassAPI from "../services/resetPassAPI";
 import usersAPI from "../services/usersAPI";
 import AlertSuccess from "../components/Alerts/AlertSuccess";
-
+import Navbar from "../components/Navbar";
+import Button from "../components/forms/Button";
 
 const UserPage = ({match}) => {
-
 
     const [id, setId] = useState();
     const [user, setUser] = useState({
@@ -46,8 +46,10 @@ const UserPage = ({match}) => {
 
     const handleSubmit = async () => {
         try {
+            setLoading(true);
             const data = await usersAPI.updateUser({...user, isEditing: isEditing});
-            AlertSuccess({text:"Vos informations ont été enregistrés avec succès !"})
+            AlertSuccess({text: "Vos informations ont été enregistrés avec succès !"})
+            setLoading(false)
             if (data.data["hydra:member"]) {
                 const BadToken = response.data["hydra:member"];
                 if (BadToken[0] === "Invalide Password") {
@@ -85,16 +87,12 @@ const UserPage = ({match}) => {
     return (
         <>
             <div className="row">
-                <div className="col-md-4">
-                    <div className="card card-shadowed ">
-                        <div className="card-body">
-                            <ul>
-                                <h3>
-                                    <i className="ti-angle-right"/> Mon compte
-                                </h3>
-                            </ul>
-                        </div>
-                    </div>
+                <div className="col-md-2 offset-2">
+                    <ul>
+                        <h2 className="mt-4 h6 bg-white px-3 py-1 rounded-pill text-dark font-weight-bold shadow-2">
+                             Mon compte
+                        </h2>
+                    </ul>
                 </div>
                 <div className="col-md-8">
                     <div className="card p-4 shadow-5 rounded-extra-lg">
@@ -153,7 +151,7 @@ const UserPage = ({match}) => {
                                 <div className="col-md-6 d-flex">
                                     <button type="button" onClick={() => editorPass()}
                                             className="bg-white blueColor font-semibold py-2 px-4 border border-gray-400 rounded shadow my-auto ml-auto">
-                                        Modifier
+                                        {!isEditing ? <>Modifier</> : <>Ne plus modifier</>}
                                     </button>
                                 </div>
                                 {isEditing && <>
@@ -203,10 +201,10 @@ const UserPage = ({match}) => {
                                     <hr className="hr-sm bg-gray-200"/>
                                 </div>
                                 <div className="col-md-12 d-flex my-3">
-                                    <button type="button" onClick={() => handleSubmit()}
+                                    <Button type="button" onClick={() => handleSubmit()} loading={loading}
                                             className="blueBackGround hover:bg-gray-100 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow ml-auto">
                                         Sauvegarder les changements
-                                    </button>
+                                    </Button>
                                 </div>
                             </div>
                         </div>

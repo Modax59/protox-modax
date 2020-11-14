@@ -1,6 +1,7 @@
 import React from "react";
 
 const Button = ({
+  onClick,
   loading,
   children,
   className = " ",
@@ -11,6 +12,7 @@ const Button = ({
       type="submit"
       className={"btn btn-success " + className + btnlabel}
       disabled={loading}
+      onClick={onClick}
     >
       {loading ? (
         <>
