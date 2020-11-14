@@ -27,8 +27,16 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *              "path"="/users/newpass/{token}",
  *              "controller"="App\Controller\user\NewPasswordController",
  *               },
+ *
  * },
- *  itemOperations={"GET", "PUT", "DELETE", "ForgotPass"={
+ *  itemOperations={"GET", "PUT", "DELETE",
+ *      "changeUserInformations"={
+ *              "method"="post",
+ *              "path"="users/update",
+ *              "controller"="App\Controller\user\changeUserInformationsController",
+ *              "read"=false,
+ *               },
+ *     "ForgotPass"={
  *      "method"="post",
  *      "path"="ForgotPass/{email}",
  *      "controller"="App\Controller\user\ForgotPasswordController",

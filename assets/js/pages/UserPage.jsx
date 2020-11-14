@@ -1,32 +1,65 @@
 import React, {useState, useEffect} from "react";
 import axios from "axios";
 import {toast} from "react-toastify";
-import Profil from "../../img/profil.svg";
 import Field from "../components/forms/Field";
 import {USERS_API} from "../config";
 import AuthAPI from "../services/authAPI";
 import resetPassAPI from "../services/resetPassAPI";
-import Button from "../components/forms/Button";
+import usersAPI from "../services/usersAPI";
+import AlertSuccess from "../components/Alerts/AlertSuccess";
+
 
 const UserPage = ({match}) => {
+
 
     const [id, setId] = useState();
     const [user, setUser] = useState({
         lastName: "",
         firstName: "",
         email: "",
+        currentPassword: "",
+        newPassword: "",
     });
     const [error, setError] = useState({
         lastName: "",
         firstName: "",
         email: "",
+        currentPassword: "",
+        newPassword: "",
     });
+    const [isEditing, setIsEditing] = useState(false);
     const [loading, setLoading] = useState(false);
     const [btnLoading, setBtnLoading] = useState(false);
 
     useEffect(() => {
         fetchUser(id);
     }, []);
+
+    const editorPass = function () {
+        if (isEditing === false) {
+            setIsEditing(true);
+        }
+        if (isEditing === true) {
+            setIsEditing(false);
+        }
+    }
+
+    const handleSubmit = async () => {
+        try {
+            const data = await usersAPI.updateUser({...user, isEditing: isEditing});
+            AlertSuccess({text:"Vos informations ont été enregistrés avec succès !"})
+            if (data.data["hydra:member"]) {
+                const BadToken = response.data["hydra:member"];
+                if (BadToken[0] === "Invalide Password") {
+                    toast.error(
+                        "Votre mot de passe actuel est incorrect 😕"
+                    );
+                }
+            }
+        } catch (error) {
+            toast.error("Les informations n'ont pas pu etre enregistré !")
+        }
+    };
 
     const fetchUser = async (id) => {
         try {
@@ -36,12 +69,13 @@ const UserPage = ({match}) => {
             const {firstName, lastName, email} = await axios
                 .get(USERS_API + "/" + id)
                 .then((Response) => Response.data);
-            setUser({firstName, lastName, email});
+            setUser({firstName, lastName, email, currentPassword: "", newPassword: ""});
             setLoading(false);
         } catch (error) {
             toast.error("Le client n'a pas pu etre chargé 😟");
         }
     };
+
 
     const handleChange = ({currentTarget}) => {
         const {name, value} = currentTarget;
@@ -64,7 +98,7 @@ const UserPage = ({match}) => {
                 </div>
                 <div className="col-md-8">
                     <div className="card p-4 shadow-5 rounded-extra-lg">
-                            <span className="font-semibold h3">Mon compte</span>
+                        <span className="font-semibold h3">Mon compte</span>
                         <div className="card-body">
                             <div className="row">
                                 <div className="col-md-6">
@@ -117,38 +151,40 @@ const UserPage = ({match}) => {
                                     />
                                 </div>
                                 <div className="col-md-6 d-flex">
-                                    <button type="button"
+                                    <button type="button" onClick={() => editorPass()}
                                             className="bg-white blueColor font-semibold py-2 px-4 border border-gray-400 rounded shadow my-auto ml-auto">
                                         Modifier
                                     </button>
                                 </div>
-                                <div className="col-md-12">
-                                    <hr className="hr-sm bg-gray-200"/>
-                                </div>
-                                <div className="col-md-6">
-                                    <Field
-                                        label="Ancien Mot de passe"
-                                        labelClass=" font-semibold"
-                                        name="password"
-                                        value={user.currentPassword}
-                                        type="password"
-                                        onChange={handleChange}
-                                        placeholder="Mot de passe"
-                                        moreClass="rounded-lg bg-gray-100"
-                                    />
-                                </div>
-                                <div className="col-md-6">
-                                    <Field
-                                        label="Nouveau mot de passe"
-                                        labelClass=" font-semibold"
-                                        name="newPassword"
-                                        type="password"
-                                        value={user.newPassword}
-                                        onChange={handleChange}
-                                        placeholder="Nouveau mot de passe"
-                                        moreClass="rounded-lg bg-gray-100"
-                                    />
-                                </div>
+                                {isEditing && <>
+                                    <div className="col-md-12">
+                                        <hr className="hr-sm bg-gray-200"/>
+                                    </div>
+                                    <div className="col-md-6">
+                                        <Field
+                                            label="Mot de passe actuel"
+                                            labelClass=" font-semibold"
+                                            name="currentPassword"
+                                            type="password"
+                                            value={user.currentPassword}
+                                            onChange={handleChange}
+                                            placeholder="Mot de passe"
+                                            moreClass="rounded-lg bg-gray-100"
+                                        />
+                                    </div>
+                                    <div className="col-md-6">
+                                        <Field
+                                            label="Nouveau mot de passe"
+                                            labelClass=" font-semibold"
+                                            name="newPassword"
+                                            type="password"
+                                            value={user.newPassword}
+                                            onChange={handleChange}
+                                            placeholder="Nouveau mot de passe"
+                                            moreClass="rounded-lg bg-gray-100"
+                                        />
+                                    </div>
+                                </>}
                                 <div className="col-md-12">
                                     <hr className="hr-sm bg-gray-200"/>
                                 </div>
@@ -167,9 +203,10 @@ const UserPage = ({match}) => {
                                     <hr className="hr-sm bg-gray-200"/>
                                 </div>
                                 <div className="col-md-12 d-flex my-3">
-                                    <Button className="blueBackGround hover:bg-gray-100 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow ml-auto">
+                                    <button type="button" onClick={() => handleSubmit()}
+                                            className="blueBackGround hover:bg-gray-100 text-white font-semibold py-2 px-4 border border-gray-400 rounded shadow ml-auto">
                                         Sauvegarder les changements
-                                    </Button>
+                                    </button>
                                 </div>
                             </div>
                         </div>

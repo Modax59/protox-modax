@@ -4,7 +4,6 @@ import {NavLink} from "react-router-dom";
 import AuthContext from "../contexts/AuthContext";
 import {toast} from "react-toastify";
 import resetPassAPI from "../services/resetPassAPI";
-import DropdownLoader from "./loaders/DropdownLoader";
 
 const Navbar = ({history}) => {
     const [id, setId] = useState();
@@ -106,75 +105,3 @@ const Navbar = ({history}) => {
 };
 
 export default Navbar;
-
-//
-// <nav className="navbar navbar-expand-lg navbarColor shadow-3 m-0 p-0">
-//     <div className="container">
-<NavLink
-    className="navbar-brand h1 text-primary font-effort"
-    to="/"
->
-    Protox
-</NavLink>
-//         <button
-//             className="navbar-toggler "
-//             type="button"
-//             data-toggle="collapse "
-//             data-target="#navbarColor03"
-//             aria-controls="navbarColor03"
-//             aria-expanded="false"
-//             aria-label="Toggle navigation"
-//         >
-//         <span className="navbar-toggler-icon">
-//           <i className="ti-menu"/>
-//         </span>
-//         </button>
-//
-//         <div className="collapse navbar-collapse" id="navbarColor03">
-//             <ul className="navbar-nav mx-auto">
-//                 <li className="nav-item">
-//                     <NavLink className="nav-link topbar-btn h4" to="/customers">
-//                         Clients
-//                     </NavLink>
-//                 </li>
-//                 <li className="nav-item ">
-//                     <NavLink className="nav-link topbar-btn h4" to="/invoices">
-//                         Factures
-//                     </NavLink>
-//                 </li>
-//             </ul>
-//             <ul className="nav ml-lg-0">
-//                 {(!isAuthenticated && (
-//                     <>
-//                         <li className="nav-item">
-//                             <NavLink to="/login" className="btn  text-uppercase btn-primary">
-//                                 S'identifier
-//                             </NavLink>
-//                         </li>
-//                     </>
-//                 )) || (
-//                     <>
-//                         <li className="nav-item">
-//                             <li className="dropdown">
-//                                 <li className="topbar-btn" data-toggle="dropdown"> {firstName} {lastName}
-//                                     {!loading && <i className="pl-2 ti-angle-down fs-10"/>}</li>
-//                                 <div className="dropdown-menu dropdown-menu-right shadow-5">
-//                                     <NavLink to={"/user"} className="dropdown-item"><i
-//                                         className="ti-user"/> Compte</NavLink>
-//                                     <a className="dropdown-item" href="#"><i
-//                                         className="ti-settings"/> Paramètres</a>
-//                                     <button onClick={handleLogout} className="dropdown-item"><i
-//                                         className="ti-power-off"/> Déconnexion
-//                                     </button>
-//                                 </div>
-//                             </li>
-//                         </li>
-//                         <div className="ml-5 mt-2">
-//                             {loading && <DropdownLoader/>}
-//                         </div>
-//                     </>
-//                 )}
-//             </ul>
-//         </div>
-//     </div>
-// </nav>
