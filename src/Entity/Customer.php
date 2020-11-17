@@ -72,7 +72,7 @@ class Customer
     private $company;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="customer")
+     * @ORM\OneToMany(targetEntity="App\Entity\Invoice", mappedBy="customer", cascade={"persist", "remove"})
      * @Groups({"customers_read"})
      * @ApiSubresource
      */

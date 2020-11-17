@@ -29,7 +29,7 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *               },
  *
  * },
- *  itemOperations={"GET", "PUT", "DELETE",
+ *  itemOperations={"GET", "PUT",
  *      "changeUserInformations"={
  *              "method"="post",
  *              "path"="users/update",
@@ -105,7 +105,7 @@ class User implements UserInterface
     private $lastName;
 
     /**
-     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user")
+     * @ORM\OneToMany(targetEntity="App\Entity\Customer", mappedBy="user", cascade={"persist", "remove"})
      */
     private $customers;
 

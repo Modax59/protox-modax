@@ -48,15 +48,16 @@ const UserPage = ({match}) => {
         try {
             setLoading(true);
             const data = await usersAPI.updateUser({...user, isEditing: isEditing});
-            AlertSuccess({text: "Vos informations ont été enregistrés avec succès !"})
             setLoading(false)
             if (data.data["hydra:member"]) {
-                const BadToken = response.data["hydra:member"];
+                const BadToken = data.data["hydra:member"];
                 if (BadToken[0] === "Invalide Password") {
                     toast.error(
                         "Votre mot de passe actuel est incorrect 😕"
                     );
                 }
+            }else {
+                AlertSuccess({text: "Vos informations ont été enregistrés avec succès !"})
             }
         } catch (error) {
             toast.error("Les informations n'ont pas pu etre enregistré !")
