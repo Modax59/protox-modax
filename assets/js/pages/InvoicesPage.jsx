@@ -164,7 +164,7 @@ const InvoicesPage = (props) => {
                                 {invoice.amount.toLocaleString()} €
                             </td>
                             <td className="text-center">
-                                {formatDate(today) === formatDate(invoice.updatedAt) ? "Ajourd'hui à "+formatDateEdit(invoice.updatedAt) : formatDate(yesterday) === formatDate(invoice.updatedAt) ? "Hier" :
+                                {today === formatDate(invoice.updatedAt) ? "Ajourd'hui à "+formatDateEdit(invoice.updatedAt) : yesterday === formatDate(invoice.updatedAt) ? "Hier" :
                                 invoice.updatedAt ? formatDate(invoice.updatedAt) : formatDate(invoice.sentAt)}
                             </td>
                             <td className="">
