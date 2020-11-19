@@ -37,7 +37,7 @@ const CustomersPage = (props) => {
         setCustomers(customers.filter((customer) => customer.id !== id));
         try {
             await CustomersAPI.delete(id);
-            AlertSuccess({text:"Client Supprimé avec succès !"});
+            AlertSuccess({text: "Client Supprimé avec succès !"});
             toast.success("Le client a bien été supprimé 😀");
         } catch (error) {
             setCustomers(originalCustomers);
@@ -75,6 +75,7 @@ const CustomersPage = (props) => {
     );
 
     return (
+
         <>
             <div className="mb-3 d-flex justify-content-between align-items-center">
                 <h1 className="fadeInLeftBig animated text-3xl">Liste des clients</h1>
@@ -105,7 +106,10 @@ const CustomersPage = (props) => {
                     </thead>
 
                     <tbody>
-                    {paginatedCustomers.map((customer) => (
+
+                    {
+                        customers.length ? (
+                        paginatedCustomers.map((customer) => (
                         <tr className="shadow-material-1 hover-shadow-material-2 table-perso hello" key={customer.id}>
                             <td>
                                 <Link className="blueColor " to={"/customers/" + customer.id}>
@@ -115,9 +119,9 @@ const CustomersPage = (props) => {
                             <td>{customer.email}</td>
                             <td>{customer.company}</td>
                             <td className="text-center">
-                  <span className=" px-3 py-2 badge badge-secondary">
-                    {customer.invoices.length}
-                  </span>
+                                  <span className=" px-3 py-2 badge badge-secondary">
+                                    {customer.invoices.length}
+                                  </span>
                             </td>
                             <td className="text-center">
                                 {customer.totalAmount.toLocaleString()} €
@@ -136,7 +140,10 @@ const CustomersPage = (props) => {
                                 </button>
                             </td>
                         </tr>
-                    ))}
+                    ))
+                            )
+                            : <tr><td className="bg-transparenttd h6">Aucun client trouvé</td></tr>
+                    }
                     </tbody>
                 </table>
             )}

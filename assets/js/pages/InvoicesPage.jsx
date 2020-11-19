@@ -140,7 +140,9 @@ const InvoicesPage = (props) => {
                     </tr>
                     </thead>
                     <tbody>
-                    {paginatedInvoices.map((invoice) => (
+                    {
+                        invoices.length ? (
+                        paginatedInvoices.map((invoice) => (
                         <tr className="shadow-material-1 hover-shadow-material-2 table-perso" key={invoice.id}>
                             <td>{invoice.chrono}</td>
                             <td>
@@ -182,7 +184,10 @@ const InvoicesPage = (props) => {
 
                             </td>
                         </tr>
-                    ))}
+                    ))
+                        )
+                            : <tr><td className="bg-transparenttd h6">Aucune facture trouvé</td></tr>
+                    }
                     </tbody>
                 </table>
             )}
