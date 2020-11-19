@@ -188,7 +188,7 @@ const UserPage = ({match}) => {
                                     <hr className="hr-sm bg-gray-200"/>
                                 </div>
                                 <div className="col-md-6 ">
-                                    <span className="h6 font-semibold">Supprimer mon compte</span>
+                                    <span className="h6 font-semibold">Supprimer mon compte (Bientot disponible)</span>
                                     <br/>
                                     <span className="fs-11 font-medium">En supprimant votre compte, vous perdrez toutes vos données</span>
                                 </div>
