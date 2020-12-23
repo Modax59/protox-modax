@@ -42,13 +42,13 @@ const UserPage = ({match}) => {
         if (isEditing === true) {
             setIsEditing(false);
         }
-    }
+    };
 
     const handleSubmit = async () => {
         try {
             setLoading(true);
             const data = await usersAPI.updateUser({...user, isEditing: isEditing});
-            setLoading(false)
+            setLoading(false);
             if (data.data["hydra:member"]) {
                 const BadToken = data.data["hydra:member"];
                 if (BadToken[0] === "Invalide Password") {

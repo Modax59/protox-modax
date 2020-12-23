@@ -40,7 +40,6 @@ use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
  *      "method"="post",
  *      "path"="ForgotPass/{email}",
  *      "controller"="App\Controller\user\ForgotPasswordController",
- *     "defaults"={"email"="email"},
  *     "read"=false,
  *      "swagger_context"={
  *          "summary"="Mail reset password",

@@ -6,7 +6,7 @@ function register(user) {
 }
 
 async function updateUser(user) {
-  return axios.post(USERS_API + "/update", user);
+  return axios.get(USERS_API + "/update", user);
 }
 
 

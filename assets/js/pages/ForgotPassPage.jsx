@@ -23,11 +23,15 @@ const ForgotPassPage = (props) => {
     setBtnLoading(true);
     try {
       //Envoie requete pour mail
-      await resetPassAPI.SendEmail(user.email);
+
+     var test =  await resetPassAPI.SendEmail(user.email);
+     console.log(test);
+     console.log(user.email);
       toast.success("Un email de recuperation vous a été envoyé 😄");
 
       setBtnLoading(false);
     } catch (error) {
+      console.log(test);
       setError(
         "Aucun compte ne possède cette adresse ou alors les informations ne correspondent pas !"
       );
