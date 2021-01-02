@@ -6,11 +6,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import resetPassAPI from "../services/resetPassAPI";
 
-const ForgotPassPage = (props) => {
+const ForgotPassPage = ({history}) => {
   const [btnLoading, setBtnLoading] = useState(false);
-  const [lien,setlien] = useState({
-      url: "",
-  });
   const [user, setUser] = useState({
     email: "",
   });
@@ -27,11 +24,9 @@ const ForgotPassPage = (props) => {
     try {
       //Envoie requete pour mail
      const test = await resetPassAPI.SendEmail(user.email);
-     console.log(test);
      console.log(test.data['hydra:member'][0]);
-     setlien(test.data['hydra:member'][0]);
-      toast.success("Un email de recuperation vous a été envoyé 😄");
-
+      toast.success("Vous pouvez désormais changer votre mot de passe ! 😄");
+      history.replace(test.data['hydra:member'][0]);
       setBtnLoading(false);
     } catch (error) {
       console.log(error);
@@ -45,7 +40,7 @@ const ForgotPassPage = (props) => {
 
   return (
     <>
-      <h1 className="text-3xl">Mot de passe oublié ? {lien && lien.url}</h1>
+      <h1 className="text-3xl">Mot de passe oublié ? </h1>
 
       <form onSubmit={handleSubmit}>
         <Field

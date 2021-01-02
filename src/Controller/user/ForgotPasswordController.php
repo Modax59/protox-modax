@@ -51,7 +51,7 @@ class ForgotPasswordController extends AbstractController
             $user->setResetPassToken($token);
             $this->manager->flush();
             $path = $this->getParameter('resetPassPath');
-            $url = $path . "resetpass/" . $token;
+            $url = "/resetpass/" . $token;
             //$this->emailService->sendEmail('EPID.verhille.C@gmail.com', 'Changement de mot de passe', 'emails/ForgotPasswordEmail.html.twig', $url, $user);
             $message = array($url);
             return $message;
