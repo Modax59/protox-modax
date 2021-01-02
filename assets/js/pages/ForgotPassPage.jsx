@@ -8,6 +8,9 @@ import resetPassAPI from "../services/resetPassAPI";
 
 const ForgotPassPage = (props) => {
   const [btnLoading, setBtnLoading] = useState(false);
+  const [lien,setlien] = useState({
+      url: "",
+  });
   const [user, setUser] = useState({
     email: "",
   });
@@ -23,15 +26,15 @@ const ForgotPassPage = (props) => {
     setBtnLoading(true);
     try {
       //Envoie requete pour mail
-
-     var test =  await resetPassAPI.SendEmail(user.email);
+     const test = await resetPassAPI.SendEmail(user.email);
      console.log(test);
-     console.log(user.email);
+     console.log(test.data['hydra:member'][0]);
+     setlien(test.data['hydra:member'][0]);
       toast.success("Un email de recuperation vous a été envoyé 😄");
 
       setBtnLoading(false);
     } catch (error) {
-      console.log(test);
+      console.log(error);
       setError(
         "Aucun compte ne possède cette adresse ou alors les informations ne correspondent pas !"
       );
@@ -42,7 +45,7 @@ const ForgotPassPage = (props) => {
 
   return (
     <>
-      <h1 className="text-3xl">Mot de passe oublié ?</h1>
+      <h1 className="text-3xl">Mot de passe oublié ? {lien && lien.url}</h1>
 
       <form onSubmit={handleSubmit}>
         <Field
